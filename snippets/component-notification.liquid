@@ -1,0 +1,32 @@
+{{ 'component-notification.css' | asset_url | stylesheet_tag }}
+
+<div class="js-notification notification text-center">
+  <div class="notification__heading d-flex justify-between">
+    <span class="notification__title body-1 d-flex align-center color-text-default">
+      {% render 'icon-success', class: 'notification-icon-success' %}Item added to your cart</span
+    >
+    <span class="notification__closer js-notification__closer">
+      {% render 'icon-close' %}
+    </span>
+  </div>
+  <div class="notification__product d-flex">
+    <img
+      width="{{ image.width }}"
+      height="{{ image.height }}"
+      loading="lazy"
+      src="{{ image_url | img_url: '2000x' }}"
+      alt="image product"
+      class="notification__img object-cover w-100"
+    >
+    <span class="notification__product-title body-1 color-text-default">{{ product_title }}</span>
+  </div>
+  <a href="{{ routes.cart_url }}" class="notification__btn-view-cart btn-outline d-block w-100 text-btn"
+    >View my cart {{ cart_quantity -}}
+  </a>
+  <form action="/checkout" method="post">
+    <input type="submit" value="Checkout" class="btn notification__checkout d-block w-100">
+  </form>
+  <span class="notification__continue body-1 color-text-default">Continue shopping</span>
+</div>
+
+<script src="{{ "component-notification.js"  | asset_url }}"></script>

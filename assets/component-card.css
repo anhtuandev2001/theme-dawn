@@ -1,0 +1,85 @@
+.card-portrait .card__img{
+  aspect-ratio: 0.8;
+}
+
+.card__vendor{
+  opacity: 0.8;
+}
+
+.card__btn{
+  margin-top: 24px;
+}
+
+.card__item:hover .card__img{
+  transform: scale(1.05);
+}
+
+.card__item:hover .card__title{
+  text-decoration: underline;
+}
+
+.card__media{
+  overflow: hidden;
+}
+
+.card__img{
+  transition: transform .4s ease;
+}
+
+.card__img-variant{
+  opacity: 0;
+}
+
+.card-square .card__img{
+  aspect-ratio: 1;
+}
+
+.card__original{
+  text-decoration-line: line-through;
+}
+
+.card-icon-sale{
+  padding: 4px 12px;
+  border-radius: 99px;
+  bottom: 8px;
+  left: 8px;
+}
+
+.card__media{
+  margin-bottom: 24px;
+}
+
+@media (min-width: 992px) {
+  .collection__list{
+      --gap: 9.5px;
+  }
+
+  .card__img-variant{
+      top: 0;
+      left: 0;
+  }
+
+  .card__item:hover .card__img-variant{
+      transform: scale(1.05);
+      /* animation: imgVariantHover 0.2s ease-in; */
+  transition: transform .4s ease;
+  opacity: 1;
+  }
+
+  .card__media{
+      margin-bottom: 24px;
+  }
+
+  .card__original{
+      margin-left: 10px;
+  }
+}
+
+@keyframes imgVariantHover {
+  from{
+      opacity: 0;
+  }
+  to{
+      opacity: 1;
+  }
+}

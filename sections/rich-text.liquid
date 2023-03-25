@@ -1,0 +1,185 @@
+{{ 'rich-text.css' | asset_url | stylesheet_tag }}
+
+<div class="{% if section.settings.full_width == true %} {{ section.settings.color_scheme }} bg-main {% endif %}">
+  <div
+    class="container rich-text__content section text-center d-flex flex-d-column align-center {% if section.settings.full_width == false %} bg-main {{ section.settings.color_scheme }} {% endif %}"
+    style="
+      --section-padding-top: {{ section.settings.top_padding }}px;
+      --section-padding-bottom: {{ section.settings.bottom_padding }}px
+    "
+  >
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'heading' %}
+          <h2 class="rich-text__heading color-text {{ block.settings.heading_font_size }}">
+            {{ block.settings.heading }}
+          </h2>
+        {% when 'decription' %}
+          <div class="rich-text__description word-break-break-word color-text body-1">
+            {{ block.settings.decription }}
+          </div>
+        {% when 'button' %}
+          {% if block.settings.link_text != blank %}
+            <a
+              href="{{ block.settings.link }}"
+              class="rich-text__btn d-inline-block {% if block.settings.link == blank %} btn--disable {% endif %} {% if block.settings.outline_button == true %} btn--no-bg {% endif %} btn"
+            >
+              {{- block.settings.link_text -}}
+            </a>
+          {% endif %}
+      {% endcase %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Rich text",
+  "tag": "section",
+  "class": "rich-text",
+  "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "accent 2"
+        },
+        {
+          "value": "bg-1",
+          "label": "background 1"
+        },
+        {
+          "value": "bg-2",
+          "label": "background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "inverse"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Color scheme"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Make section full width",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "label": "Top padding",
+      "id": "top_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "label": "Bottom padding",
+      "id": "bottom_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    }
+  ],
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "name": "Heading",
+      "type": "heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Talk about your brand",
+          "label": "heading"
+        },
+        {
+          "type": "select",
+          "id": "heading_font_size",
+          "label": "Heading font size",
+          "options": [
+            {
+              "value": "heading-2-lg heading-2-xs",
+              "label": "Small"
+            },
+            {
+              "value": "heading-1-lg heading-1-xs",
+              "label": "Medium"
+            },
+            {
+              "value": "heading-0-lg heading-0-xs",
+              "label": "large"
+            }
+          ],
+          "default": "heading-1-lg heading-1-xs"
+        }
+      ]
+    },
+    {
+      "name": "Decription",
+      "type": "decription",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "decription",
+          "label": "decription"
+        }
+      ]
+    },
+    {
+      "name": "Button",
+      "type": "button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "link_text",
+          "default": "Button lable",
+          "label": "Button lable"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button label"
+        },
+        {
+          "type": "checkbox",
+          "id": "outline_button",
+          "label": "Use outline button style",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich text",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "decription"
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

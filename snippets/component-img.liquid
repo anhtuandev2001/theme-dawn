@@ -1,0 +1,14 @@
+{%- if img_url != blank -%}
+  <img
+    width="{{ image.width }}"
+    height="{{ image.height }}"
+    loading="lazy"
+    src="{{ img_url | img_url: '2000x' }}"
+    alt="{{ alt }}"
+    class="{{ class_img }} object-cover"
+  >
+{%- elsif enable_placeholder == true -%}
+  <div class="{{ class }}">
+    {{ placehelder_name | placeholder_svg_tag: 'h-100 w-100 d-block object-cover bg-bg-2' }}
+  </div>
+{%- endif -%}

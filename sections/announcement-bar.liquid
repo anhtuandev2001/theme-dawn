@@ -1,0 +1,84 @@
+{{ 'announcement-bar.css' | asset_url | stylesheet_tag }}
+
+<div class="announcement-bar" data-blocks-size="{{ section.blocks.size }}">
+  {%- for block in section.blocks -%}
+    <div class="announcement-bar__container bg-main {{ block.settings.color_scheme }} border-bottom-border-light">
+      <div class="container">
+        <p class=" announcement-bar__text color-text body-2 {{ block.settings.text_align }}">
+          {{ block.settings.text }}
+        </p>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "max_blocks": 12,
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Free shipping available on all orders!",
+          "label": "text"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "options": [
+            {
+              "value": "text-left",
+              "label": "left"
+            },
+            {
+              "value": "text-center",
+              "label": "center"
+            },
+            {
+              "value": "text-right",
+              "label": "right"
+            }
+          ],
+          "default": "text-center",
+          "label": "text align"
+        },
+        {
+          "type": "select",
+          "id": "color_scheme",
+          "default": "bg-1",
+          "label": "Color scheme",
+          "options": [
+            {
+              "value": "accent-1",
+              "label": "Accent 1"
+            },
+            {
+              "value": "accent-2",
+              "label": "Accent 2"
+            },
+            {
+              "value": "bg-1",
+              "label": "Background 1"
+            },
+            {
+              "value": "bg-2",
+              "label": "Background 2"
+            },
+            {
+              "value": "inverse",
+              "label": "Inverse"
+            }
+          ],
+          "info": "To change the card color scheme, update your theme settings."
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

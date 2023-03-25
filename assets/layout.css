@@ -1,0 +1,103 @@
+/* 
+  cách chia col: 
+    col = (width element / width container x 100%) / (100%/12=8.33333%)
+*/
+
+:root{
+  --widthContainer: 1075px;
+  --gap: 10px;
+  --gap-container: 10px;
+}
+
+.container, .container-fluid{
+  max-width: calc(var(--widthContainer) + var(--gap-container) * 2);
+}
+
+.container-fluid{
+  display: grid;
+}
+
+.container, .container-fluid, .container-w-100 {
+  margin: 0 auto;
+  padding-left: var(--gap-container);
+  padding-right: var(--gap-container);
+}
+
+
+
+.row {
+  margin-left: calc(-1 * var(--gap)/2);
+  margin-right: calc(-1 * var(--gap)/2);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col {
+  padding-left: calc(var(--gap)/2);
+  padding-right: calc(var(--gap)/2);
+}
+
+[style*= "--w-xs"]{
+  flex: 0 0 calc(100%/12 * var(--w-xs));
+  max-width: calc(100%/12 * var(--w-xs));
+}
+
+@media (min-width: 576px) {
+  :root{
+  }
+  
+  [style*= "--w-sm"]{
+    flex: 0 0 calc(100%/12 * var(--w-sm));
+    max-width: calc(100%/12 * var(--w-sm));
+  }
+}
+
+@media (min-width: 768px) {
+  :root{
+  }
+  
+  [style*= "--w-md"]{
+    flex: 0 0 calc(100%/12 * var(--w-md));
+    max-width: calc(100%/12 * var(--w-md));
+  }
+}
+
+
+@media (min-width: 992px) {
+  :root{
+    --gap: 10px;
+  }
+
+  [style*= "--w-lg"]{
+    flex: 0 0 calc(100%/12 * var(--w-lg));
+    max-width: calc(100%/12 * var(--w-lg));
+  }
+}
+
+
+
+@media (min-width: 1200px) {
+  :root{
+
+  }
+  
+  [style*= "--w-xl"]{
+    flex: 0 0 calc(100%/12 * var(--w-xl));
+    max-width: calc(100%/12 * var(--w-xl));
+  }
+}
+
+
+@media (min-width: 1400px) {
+  :root{
+
+  }
+  
+  [style*= "--w-xxl"]{
+    flex: 0 0 calc(100%/12 * var(--w-xxl));
+    max-width: calc(100%/12 * var(--w-xxl));
+  }
+}
+
+
+

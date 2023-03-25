@@ -1,0 +1,76 @@
+{% comment %} product  image_ratio second_img_hover add_button card_color{% endcomment %}
+
+<div class="card__item d-flex flex-d-column {{ card_item_class }} h-100">
+  <a href="{{ product.link }}" class="flex-1 flex-d-column d-flex d-block">
+    <div class="card__media flex-1 p-relative {% if image_ratio != "card-adapt" %} {{ image_ratio }} {% endif %}">
+      {%- if product.featured_image != blank -%}
+        {%- if second_img_hover == true and product.variants.size > 1 -%}
+          {%- for variant in product.variants limit: 2 -%}
+            {%- if forloop.first == false -%}
+              {%- render 'component-img',
+                img_url: variant.featured_image,
+                class_img: 'card__img card__img-variant p-absolute h-100 w-100 ',
+                placehelder_name: 'product-1',
+                enable_placeholder: true
+              -%}
+            {%- else -%}
+              {%- render 'component-img',
+                img_url: variant.featured_image,
+                class_img: 'card__img h-100 w-100 ',
+                enable_placeholder: true,
+                placehelder_name: 'product-1'
+              -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- elsif second_img_hover == false or product.variants.size == 1 -%}
+          {%- render 'component-img',
+            img_url: product.featured_image,
+            class_img: 'card__img h-100  w-100 ',
+            enable_placeholder: true,
+            placehelder_name: 'product-1'
+          -%}
+        {%- endif -%}
+        {%- if product.available == false -%}
+          <span class="card-icon-sale caption-1 bg-accent-1 color-text-inverse p-absolute">Sold out</span>
+        {%- endif -%}
+        {%- if product.price_max != product.price_min -%}
+          <span class="card-icon-sale caption-1 bg-accent-2 color-text-inverse p-absolute">Sale</span>
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'card__img object-cover' }}
+      {%- endif -%}
+    </div>
+    <span class="card__title body-2 {{ card_color }}">{{ product.title }}</span>
+    {%- if show_vendor -%}
+      <span class="card__vendor caption-1 d-block {{ card_color }}">{{ product.vendor }}</span>
+    {%- endif -%}
+    <div class="card__price {{ card_color }}">
+      {%- if product.price_max != product.price_min -%}
+        <span class="card__sale  d-block d-inline-block-lg body-1">
+          {{ product.price_min | money_without_trailing_zeros }} CAD
+        </span>
+        <span class="card__original d-block d-inline-block-lg body-2">
+          {{ product.price_max | money_without_trailing_zeros }} CAD
+        </span>
+      {%- else -%}
+        <span class="card__current d-block d-inline-block-lg body-1">
+          {{ product.price | money_without_trailing_zeros }} CAD
+        </span>
+      {%- endif -%}
+    </div>
+  </a>
+  {%- if add_button == true -%}
+    {%- if product.available == false -%}
+      <button class="card__btn sold-out btn btn--disable w-100">Sold out</button>
+    {%- elsif product.variants.size > 1 -%}
+      <button class="card__btn choose-option btn button-text w-100">Choose option</button>
+    {%- else -%}
+      <button
+        onclick="addToCart('{{ product.id }}', '{{ product.selected_or_first_available_variant.id }}') "
+        class=" btn-outline w-100 card__btn "
+      >
+        Add to Cart
+      </button>
+    {%- endif -%}
+  {%- endif -%}
+</div>

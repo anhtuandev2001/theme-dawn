@@ -1,0 +1,215 @@
+{{ 'header.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="js-header__container section {{ section.settings.color_scheme }}"
+  style="
+    --section-padding-top: {{ section.settings.top_padding }}px;
+    --section-padding-bottom: {{ section.settings.bottom_padding }}px
+  "
+>
+  <div class="container-fluid header__container {{ section.settings.logo-position }} align-center">
+    <a href="{{ routes.search_url }}" class="color-text header__search d-inline-block">
+      {%- render 'icon-search' -%}
+    </a>
+    <a href="{{ shop.url }}" class="header__logo text-center">
+      {%- render 'component-img',
+        img_url: section.settings.image,
+        class_img: 'header__logo-img w-100 ',
+        enable_placeholder: false,
+        alt: 'logo'
+      -%}
+      {%- if section.settings.image == blank -%}
+        <p class="header__shop-name color-text heading-1-sm">{{ shop.name }}</p>
+      {%- endif -%}
+    </a>
+    <div class="header__group text-right d-flex align-center">
+      <a href="{{ routes.account_url }}" class="d-none d-inline-block-lg">
+        {%- render 'icon-user' -%}
+      </a>
+      {%- if cart.empty? == true -%}
+        <a href="{{ routes.cart_url }}" class=" header__icon-bag d-inline-block">
+          {%- render 'icon-bag-empty' -%}
+        </a>
+      {%- else -%}
+        <a href="{{ routes.cart_url }}" class="p-relative  header__icon-bag d-inline-block">
+          {%- render 'icon-bag' -%}
+          <span id="cart-item-count" class="cart-quantity color-btn bg-btn p-absolute flex-center">
+            {{- cart.item_count -}}
+          </span>
+        </a>
+      {%- endif -%}
+    </div>
+    <nav class="header__nav p-relative">
+      <div class="header__menu js-header__menu d-none-lg">
+        {%- render 'icon-menu', class: 'js-header__icon-menu icon-menu-show header__icon-menu d-none' -%}
+        {%- render 'icon-close', class: 'js-header__icon-close header__icon-close d-none' -%}
+      </div>
+      <div class="header__nav-container bg-main flex-d-column d-flex d-block-lg justify-between p-absolute-md js-header__nav-container">
+        <ul class="header__nav-list align-center-lg list-style-none">
+          {%- for link in section.settings.menu.links -%}
+            <li class="header__nav-item justify-between d-flex align-center p-relative-lg cursor-pointer js-header__nav-item">
+              {%- if link.links.size > 0 -%}
+                <span class="header__nav-text body-2-lg text-menu color-text">{{ link.title }}</span>
+                {%- render 'icon-vector-down',
+                  class: 'header__icon-vector-down header__icon-vector d-none d-inline-block-lg'
+                -%}
+                {%- render 'icon-vector-up', class: 'header__icon-vector-up header__icon-vector d-none' -%}
+                {% render 'icon-arrow-right', class: 'd-none-lg' %}
+                <div class="header__nav-child-container js-header__nav-child-list p-absolute d-none-lg bg-main js-header__nav-child-list">
+                  <div class="header__nav-child-text js-header__nav-child-text d-none-lg body-2 color-text">
+                    <span>{{ link.title }}</span>
+                  </div>
+                  <ul class="header__nav-child-list list-style-none ">
+                    {% for childlink in link.links %}
+                      <li class="header__nav-child-item {% if forloop.first != true %} header__nav-child-item--margin{% endif %}">
+                        <a
+                          href="{{ childlink.url }}"
+                          class="caption-1-lg header__nav-child-link text-menu color-text"
+                        >
+                          {{- childlink.title -}}
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {%- else -%}
+                <a href="{{ link.url }}" class=" header__nav-text body-2-lg color-text text-menu">
+                  {{- link.title -}}
+                </a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+        <div class="menu-section d-none-lg bg-main">
+          {%- if shop.customer_accounts_enabled -%}
+            <a href="{{ routes.account_url }}" class="d-flex align-center d-none-lg menu-section__log-in">
+              {%- render 'icon-user', class: 'menu-section__icon' -%}
+              <span class="body-2">Log in</span>
+            </a>
+          {%- endif -%}
+          <div class="menu-section__socal">
+            {%- if settings.social_twitter_link != blank -%}
+              <a href="{{ settings.social_twitter_link }}" class="menu-section__socal-item">
+                {% render 'icon-twitter' %}
+              </a>
+            {%- endif -%}
+            {%- if settings.social_facebook_link != blank -%}
+              <a href="{{ settings.social_facebook_link }}" class="menu-section__socal-item">
+                {% render 'icon-facebook' %}
+              </a>
+            {%- endif -%}
+            {%- if settings.social_instagram_link != blank -%}
+              <a href="{{ settings.social_instagram_link }}" class="menu-section__socal-item">
+                {% render 'icon-instagram' %}
+              </a>
+            {%- endif -%}
+            {%- if settings.social_tiktok_link != blank -%}
+              <a href="{{ settings.social_tiktok_link }}" class="menu-section__socal-item">
+                {% render 'icon-tiktok' %}
+              </a>
+            {%- endif -%}
+            {%- if settings.social_youtube_link != blank -%}
+              <a href="{{ settings.social_youtube_link }}" class="menu-section__socal-item">
+                {% render 'icon-youtube' %}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<script src="{{ 'header.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "header",
+  "class": "header",
+  "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "default": "bg-1",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "bg-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "bg-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Inverse"
+        }
+      ],
+      "info": "To change the card color scheme, update your theme settings."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "logo image"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "select",
+      "id": "logo-position",
+      "options": [
+        {
+          "value": "header-logo-middle-left",
+          "label": "middle left"
+        },
+        {
+          "value": "header-logo-top-left",
+          "label": "top left"
+        },
+        {
+          "value": "header-logo-top-center",
+          "label": "top center"
+        }
+      ],
+      "default": "header-logo-middle-left",
+      "label": "Desktop logo position"
+    },
+    {
+      "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "label": "Top padding",
+      "id": "top_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "label": "Bottom padding",
+      "id": "bottom_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 18
+    }
+  ]
+}
+{% endschema %}

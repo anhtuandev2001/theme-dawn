@@ -1,0 +1,14 @@
+.video__container{
+    aspect-ratio: 1.02;
+}
+
+.video__icon-play{
+    padding: 21px;
+    border-radius: 50%;
+}
+
+@media (min-width: 992px) {
+    .video__container{
+    aspect-ratio: 1.4;
+}
+}

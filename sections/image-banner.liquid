@@ -1,0 +1,355 @@
+{{ 'image-banner.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="image-banner__container p-relative {% if section.settings.second_image != blank and section.settings.first_image != blank %} image-banner__img-double {% endif %} {% if section.settings.stack_xs == true and section.settings.second_image != blank and section.settings.first_image != blank %} d-grid-md image-banner-media-stack {% endif %}"
+  style="{% if section.settings.banner_height != "height-banner-adapt" %} {{ section.settings.banner_height }} {% endif %}"
+>
+  {%- if section.settings.banner_height == 'height-banner-adapt' -%}
+    {%-
+      render 'component-img',
+      img_url: section.settings.first_image,
+      alt: 'image banner first'
+      class_img: 'image-banner__img image-banner__img-first w-100 height-banner-adapt',
+    -%}
+    {%-
+      render 'component-img',
+      img_url: section.settings.second_image,
+      class_img: 'image-banner__img image-banner__img-first w-100 height-banner-adapt',
+    -%}
+  {%- else -%}
+    {%- render 'component-img',
+      img_url: section.settings.first_image,
+      class_img: 'image-banner__img image-banner__img-first w-100',
+      alt: 'image banner first'
+    -%}
+    {%-
+      render 'component-img',
+      img_url: section.settings.second_image,
+      class_img: 'image-banner__img image-banner__img-first w-100',
+    -%}
+  {%- endif -%}
+  {%- if section.settings.first_image == blank and section.settings.second_image == blank -%}
+    {{-
+      'lifestyle-1'
+      | placeholder_svg_tag: 'banner-image__placeholder bg-bg-2 image-banner__img w-100 object-cover d-block'
+    -}}
+  {%- endif -%}
+  <div class="image-banner__content {{ section.settings.content_position_lg }} {{ section.settings.content_alignment_lg }} {{ section.settings.content_positon_xs }} p-absolute-lg {% if section.settings.show_container_xs == false %} image-banner--color-default-md image-banner__content-center-md p-absolute-md {% else %} {{ section.settings.color_scheme }} {% endif %} {% if  section.settings.show_container_lg == false %} image-banner--color-default-lg {% else %} {{ section.settings.color_scheme }} {% endif %}">
+    <div class="image-banner__content-md">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'heading' -%}
+            <h2 class="image-banner__heading image-banner__content--gap color-text {{ block.settings.Heading_font_size }}">
+              {{- block.settings.heading -}}
+            </h2>
+          {%- when 'decription' -%}
+            <p class="image-banner__decription body-1 color-text image-banner__content--gap">
+              {{- block.settings.decription -}}
+            </p>
+          {%- when 'button' -%}
+            {%- if block.settings.first_btn != blank -%}
+              <a
+                href="#"
+                class="image-banner__btn {% if block.settings.first_btn != blank and block.settings.second_btn != blank %}  image-banner__btn-margin {% endif %} d-inline-block  image-banner__content--gap btn {% if block.settings.outline_first_btn %} btn-outline {% endif %} {% if block.settings.first_btn_link == blank %} btn--disable {% endif %} "
+              >
+                {{- block.settings.first_btn -}}
+              </a>
+            {%- endif -%}
+            {%- if block.settings.second_btn != blank -%}
+              <a
+                href="#"
+                class="image-banner__btn d-inline-block  image-banner__content--gap btn {% if block.settings.outline_second_btn %} btn-outline {% endif %} {% if block.settings.second_btn_link == blank %} btn--disable {% endif %}"
+              >
+                {{- block.settings.second_btn -}}
+              </a>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image banner",
+  "class": "image-banner",
+  "tag": "section",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "image_picker",
+      "label": "first image",
+      "id": "first_image"
+    },
+    {
+      "type": "image_picker",
+      "label": "second image",
+      "id": "second_image"
+    },
+    {
+      "type": "select",
+      "id": "banner_height",
+      "options": [
+        {
+          "value": "height-banner-adapt",
+          "label": "Adapt section height to first image size"
+        },
+        {
+          "value": "--height-banner: 280px",
+          "label": "Small"
+        },
+        {
+          "value": "--height-banner: 340px",
+          "label": "Medium"
+        },
+        {
+          "value": "--height-banner: 398px",
+          "label": "Large"
+        }
+      ],
+      "default": "--height-banner: 340px",
+      "label": "Banner height",
+      "info": "For best results, use an image with a 3:2 aspect ratio. Learn more"
+    },
+    {
+      "type": "select",
+      "id": "content_position_lg",
+      "options": [
+        {
+          "value": "banner-top-left-lg",
+          "label": "top left"
+        },
+        {
+          "value": "banner-top-center-lg",
+          "label": "top center"
+        },
+        {
+          "value": "banner-top-right-lg",
+          "label": "top right"
+        },
+        {
+          "value": "banner-middle-left-lg",
+          "label": "middle left"
+        },
+        {
+          "value": "banner-middle-center-lg",
+          "label": "middle center"
+        },
+        {
+          "value": "banner-middle-right-lg",
+          "label": "middle right"
+        },
+        {
+          "value": "banner-bottom-left-lg",
+          "label": "bottom left"
+        },
+        {
+          "value": "banner-bottom-center-lg",
+          "label": "bottom center"
+        },
+        {
+          "value": "banner-bottom-right-lg",
+          "label": "bottom right"
+        }
+      ],
+      "default": "banner-middle-center-lg",
+      "label": "Desktop content alignment"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_container_lg",
+      "default": true,
+      "label": "Show container on desktop"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment_lg",
+      "options": [
+        {
+          "value": "banner-center-lg",
+          "label": "center"
+        },
+        {
+          "value": "banner-left-lg",
+          "label": "left"
+        },
+        {
+          "value": "banner-right-lg",
+          "label": "right"
+        }
+      ],
+      "default": "banner-center-lg",
+      "label": "Desktop content alignment"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "accent 2"
+        },
+        {
+          "value": "bg-1",
+          "label": "background 1"
+        },
+        {
+          "value": "bg-2",
+          "label": "background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "inverse"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Color scheme",
+      "info": "Visible when container displayed."
+    },
+    {
+      "type": "header",
+      "content": "Mobile Layout"
+    },
+    {
+      "type": "select",
+      "id": "content_positon_xs",
+      "options": [
+        {
+          "value": "banner-center-md",
+          "label": "center"
+        },
+        {
+          "value": "banner-left-md",
+          "label": "left"
+        },
+        {
+          "value": "banner-right-md",
+          "label": "right"
+        }
+      ],
+      "default": "banner-center-md",
+      "label": "Mobile content alignment"
+    },
+    {
+      "type": "checkbox",
+      "id": "stack_xs",
+      "default": false,
+      "label": "Stack images on mobile"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_container_xs",
+      "default": false,
+      "label": "Show container on mobile"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Industrial design meets fashion",
+          "label": "heading"
+        },
+        {
+          "type": "select",
+          "id": "Heading_font_size",
+          "options": [
+            {
+              "value": "heading-0-sm heading-0-lg",
+              "label": "large"
+            },
+            {
+              "value": "heading-1-sm heading-1-lg",
+              "label": " medium"
+            },
+            {
+              "value": "heading-2-sm heading-2-lg",
+              "label": "small"
+            }
+          ],
+          "default": "heading-1-sm heading-1-lg",
+          "label": "medium"
+        }
+      ]
+    },
+    {
+      "type": "decription",
+      "name": "Decription",
+      "settings": [
+        {
+          "type": "text",
+          "id": "decription",
+          "default": "Atypical leather goods",
+          "label": "decription"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "first_btn",
+          "default": "Shop all",
+          "label": "First button label",
+          "info": "Leave the label blank to hide the button."
+        },
+        {
+          "type": "url",
+          "id": "first_btn_link",
+          "label": "First button link"
+        },
+        {
+          "type": "checkbox",
+          "id": "outline_first_btn",
+          "default": true,
+          "label": "Use outline button style"
+        },
+        {
+          "type": "text",
+          "id": "second_btn",
+          "label": "second button label",
+          "info": "Leave the label blank to hide the button."
+        },
+        {
+          "type": "url",
+          "id": "second_btn_link",
+          "label": "second button link"
+        },
+        {
+          "type": "checkbox",
+          "id": "outline_second_btn",
+          "default": true,
+          "label": "Use outline button style"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image banner",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "decription"
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

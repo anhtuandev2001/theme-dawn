@@ -1,0 +1,294 @@
+{{ 'multi-column.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="section {{ section.settings.color_scheme }}"
+  style="
+    --section-padding-top: {{ section.settings.top_padding }}px;
+    --section-padding-bottom: {{ section.settings.bottom_padding }}px
+  "
+>
+  <div class="contaner">
+    <h2 class="section__heading color-text {{ section.settings.heading_size }} ">{{ section.settings.heading }}</h2>
+  </div>
+  <div class="row">
+    {%- for block in section.blocks -%}
+      <div
+        class="col"
+        style="--w-lg: {{ 12.0 | divided_by: section.settings.columns_lg }}; {% if section.settings.colmn_xs == "one-column" %} --w-xs: 12 {% else %} --w-xs: 6 {% endif %}"
+      >
+        <div class=" multi-column__item ">
+          <div class="row">
+            <div class="col" style="--w-xs: {{ section.settings.image_width }}">
+              {%-
+                render 'component-img',
+                img_url: block.settings.image,
+                class_img: 'multi-column__item-img',
+              -%}
+            </div>
+          </div>
+          {%- if block.heading != blank -%}
+            <h3 class="color-text multi-column__item-heading">{{ block.settings.headinga }}</h3>
+          {%- endif -%}
+          {%- if block.settings.decription != blank -%}
+            <div class="color-text multi-column__item-decription word-breck-breck-word">
+              {{ block.settings.decription }}
+            </div>
+          {%- endif -%}
+          {%- if block.settings.link_text != blank -%}
+            <div class="color-text multi-column__item-link-label">{{ block.settings.link_text }}</div>
+          {%- endif -%}
+          {%- if block.settings.link_text != blank -%}
+            <a
+              href="{{ block.settings.link }}"
+              class="multi-column__item-link-label color-text {% if block.settings.link == blank %} btn--disable {% endif %}"
+            >
+              {{- block.settings.link_text -}}
+              {% render 'icon-arrow-right' %}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+<script src="{{ 'multi-column.js' | asset_url }}"></script>
+
+{% schema %}
+{
+  "name": "Multi column",
+  "class": "multi-column",
+  "tag": "section",
+  "blocks": [
+    {
+      "name": "Column",
+      "type": "column",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "label": "Heading",
+          "id": "headinga"
+        },
+        {
+          "type": "richtext",
+          "id": "decription",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "heading",
+      "default": "Multicolumn"
+    },
+    {
+      "type": "select",
+      "options": [
+        {
+          "value": "heading-2-sm heading-2-lg",
+          "label": "Small"
+        },
+        {
+          "value": "heading-1-sm heading-1-lg",
+          "label": "Medium"
+        },
+        {
+          "value": "heading-0-sm heading-0-lg",
+          "label": "Large"
+        }
+      ],
+      "label": "Heading size",
+      "id": "heading_size",
+      "default": "heading-1-sm heading-1-lg"
+    },
+    {
+      "type": "select",
+      "options": [
+        {
+          "value": "4",
+          "label": "One-third with column"
+        },
+        {
+          "value": "6",
+          "label": "Half with column"
+        },
+        {
+          "value": "12",
+          "label": "Full width with column"
+        }
+      ],
+      "label": "Image width",
+      "id": "image_width",
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "options": [
+        {
+          "value": "ratio-adapt",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "ratio-portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "ratio-square",
+          "label": "Square"
+        },
+        {
+          "value": "ratio-circle",
+          "label": "Circle"
+        }
+      ],
+      "label": "Image ratio",
+      "id": "image_ratio",
+      "default": "ratio-adapt"
+    },
+    {
+      "type": "range",
+      "label": "Number of columns on desktop",
+      "id": "columns_lg",
+      "max": 5.0,
+      "min": 1.0,
+      "step": 1.0,
+      "default": 4.0
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "options": [
+        {
+          "value": "text-left",
+          "label": "left"
+        },
+        {
+          "value": "text-center",
+          "label": "center"
+        }
+      ],
+      "default": "text-center",
+      "label": "Column alignment"
+    },
+    {
+      "type": "select",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "show-bg-column",
+          "label": "Show as column background"
+        }
+      ],
+      "label": "Secondary background",
+      "id": "secondary_background",
+      "default": "show-bg-column"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "default": "Button lable",
+      "label": "Button lable"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "colmn_xs",
+      "label": "Number of columns on mobile",
+      "default": "one-column",
+      "options": [
+        {
+          "value": "one-column",
+          "label": "one column"
+        },
+        {
+          "value": "two-column",
+          "label": "two column"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "default": "bg-1",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "bg-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "bg-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Inverse"
+        }
+      ],
+      "info": "To change the card color scheme, update your theme settings."
+    },
+    {
+      "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "label": "Top padding",
+      "id": "top_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "label": "Bottom padding",
+      "id": "bottom_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Multi column",
+      "settings": {},
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

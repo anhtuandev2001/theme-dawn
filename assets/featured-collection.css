@@ -1,0 +1,29 @@
+.collection__list{
+    row-gap: 24px;
+}
+
+.view-all-link{
+    text-decoration:revert;
+    opacity: 0.9;
+    padding: 16px;
+}
+
+.feature-collection__btn{
+    margin-top: 30px;
+}
+
+.view-all-link:hover{
+    opacity: 1;
+}
+
+.feature-collection__list{
+    margin-top: 25px;
+    row-gap: 24px;
+}
+
+@media (min-width: 992px) {
+    .collection__list{
+        --gap: 9.5px;
+    }
+}
+

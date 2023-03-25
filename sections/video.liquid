@@ -1,0 +1,177 @@
+{{ 'video.css' | asset_url | stylesheet_tag }}
+
+{%- assign videoUrl = section.settings.video -%}
+
+<div
+  class="section {{ section.settings.color_scheme }}"
+  style="
+    --section-padding-top: {{ section.settings.top_padding }}px;
+    --section-padding-bottom: {{ section.settings.bottom_padding }}px
+  "
+>
+  {% if section.settings.heading != blank %}
+    <div class="container">
+      <h2 class=" section__heading container color-text {{ section.settings.heading_size }}">
+        {{ section.settings.heading }}
+      </h2>
+    </div>
+  {% endif %}
+  <div class="video__container {% if section.settings.full_width == false %} container {% endif %} w-100 p-relative">
+    {%- render 'component-img',
+      img_url: section.settings.image,
+      class_img: 'video__img w-100 h-100',
+      enable_placeholder: true,
+      placehelder_name: 'collection-2'
+    -%}
+    <button class="play-btn btn accent-1 video__icon-play transform-center p-absolute">
+      {%- render 'icon-play' -%}
+    </button>
+    <iframe
+      class="video__frame w-100 h-100"
+      width="560"
+      height="315"
+      src=""
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      style="display: none"
+    ></iframe>
+  </div>
+</div>
+
+<script src="{{ 'video.js' | asset_url }}"></script>
+
+<script>
+  const videoUrl = '{{ videoUrl | escape }}';
+  const embedLink = convertToEmbedLink(videoUrl);
+  const videoFrame = document.querySelector('.video__frame');
+  const thumbnail = document.querySelector('.video__img');
+  const playBtn = document.querySelector('.play-btn');
+
+  function convertToEmbedLink(link) {
+    const videoId = link.split('v=')[1];
+    const ampersandPosition = videoId.indexOf('&');
+    if (ampersandPosition !== -1) {
+      videoId = videoId.substring(0, ampersandPosition);
+    }
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+  playBtn.addEventListener('click', () => {
+    thumbnail.style.display = 'none';
+    playBtn.style.display = 'none';
+    videoFrame.style.display = 'block';
+    videoFrame.src = embedLink;
+    videoFrame.setAttribute('allowfullscreen', '');
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Video",
+  "class": "video",
+  "tag": "section",
+  "blocks": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "heading",
+      "default": "Featured products"
+    },
+    {
+      "type": "select",
+      "options": [
+        {
+          "value": "heading-2-sm heading-2-lg",
+          "label": "Small"
+        },
+        {
+          "value": "heading-1-sm heading-1-lg",
+          "label": "Medium"
+        },
+        {
+          "value": "heading-0-sm heading-0-lg",
+          "label": "Large"
+        }
+      ],
+      "label": "Heading size",
+      "id": "heading_size",
+      "default": "heading-1-sm heading-1-lg"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Cover image"
+    },
+    {
+      "type": "video_url",
+      "id": "video",
+      "label": "Product description video",
+      "accept": ["youtube", "vimeo"]
+    },
+    {
+      "type": "checkbox",
+      "label": "Make section full width",
+      "id": "full_width",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "default": "bg-1",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "bg-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "bg-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Inverse"
+        }
+      ],
+      "info": "To change the card color scheme, update your theme settings."
+    },
+    {
+      "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "label": "Top padding",
+      "id": "top_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "label": "Bottom padding",
+      "id": "bottom_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "video",
+      "settings": {},
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

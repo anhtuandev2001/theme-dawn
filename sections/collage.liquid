@@ -1,0 +1,245 @@
+{{ 'collage.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="section {{ section.settings.color_scheme }}"
+  style="
+    --section-padding-top: {{ section.settings.top_padding }}px;
+    --section-padding-bottom: {{ section.settings.bottom_padding }}px
+  "
+>
+  {%- if section.settings.heading != blank -%}
+    <div class="container">
+      <h2 class="section__heading color-text{{ section.settings.heading_size }}">
+        {{ section.settings.heading }}
+      </h2>
+    </div>
+  {%- endif -%}
+  <div class="collage__container container-fluid {{ section.settings.desktop_layout }} {{ section.settings.mobile_layout }}">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'image' -%}
+          {%- render 'component-img',
+            img_url: block.settings.image,
+            class_img: 'h-100 w-100 college__img',
+            enable_placeholder: true,
+            placehelder_name: 'product-1',
+            alt: 'image'
+          -%}
+        {%- when 'product' -%}
+          {%- if block.settings.product != blank -%}
+            {%- render 'component-card',
+              product: block.settings.product,
+              second_img_hover: block.settings.second_img_hover,
+              card_color: 'color-text',
+              card_item_class: 'collage__card'
+            -%}
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'h-100 collage__card w-100 object-cover bg-bg-2' }}
+          {%- endif -%}
+        {%- when 'collection' -%}
+          {%- if block.settings.collection != blank -%}
+            <a href="{{ block.settings.collection.url }}" class="d-block collage__collection">
+              <div class="collage__collection-media">
+                {%- if block.settings.collection.image != blank -%}
+                  <img
+                    width="{{ image.width }}"
+                    height="{{ image.height }}"
+                    loading="lazy"
+                    src="{{ block.settings.collection.image | image_url: width: 1720, height: 1720 }}"
+                    alt="image"
+                    class="object-cover h-100 collage__collection-img"
+                  >
+                {%- else -%}
+                  {{ 'collection-1' | placeholder_svg_tag: 'h-100 w-100 object-cover bg-bg-2' }}
+                {%- endif -%}
+              </div>
+              <span class="collage__collection-title color-text align-center d-flex body-1">
+                {{ block.settings.collection.title }}
+                {%- render 'icon-arrow-right', class: 'collage__icon-arrow-right' -%}
+              </span>
+            </a>
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'h-100 collage__collection w-100 object-cover bg-bg-2' }}
+          {%- endif -%}
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+<script src="{{ 'collage.js' | asset_url }}"></script>
+
+{% schema %}
+{
+  "name": "Collage",
+  "class": "collage",
+  "tag": "section",
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "checkbox",
+          "id": "second_img_hover",
+          "label": "Show second image on hover"
+        }
+      ]
+    },
+    {
+      "name": "Collection",
+      "type": "collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "label": "Heading",
+      "id": "heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "heading-2-sm heading-2-lg",
+          "label": "Small"
+        },
+        {
+          "value": "heading-2-sm heading-1-lg",
+          "label": "Medium"
+        },
+        {
+          "value": "heading-2-sm heading-0-lg",
+          "label": "Large"
+        }
+      ],
+      "default": "heading-2-sm heading-1-lg"
+    },
+    {
+      "type": "select",
+      "label": "Desktop layout",
+      "id": "desktop_layout",
+      "default": "collage-left-lagre",
+      "options": [
+        {
+          "value": "collage-left-lagre",
+          "label": "Left lagre block"
+        },
+        {
+          "value": "collage-right-lagre",
+          "label": "Right lagre block"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "label": "Mobile layout",
+      "id": "mobile_layout",
+      "default": "collage-collage-md",
+      "options": [
+        {
+          "value": "collage-collage-md",
+          "label": "Collage"
+        },
+        {
+          "value": "collage-column-md",
+          "label": "Column"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "default": "bg-1",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "bg-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "bg-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Inverse"
+        }
+      ],
+      "info": "To change the card color scheme, update your theme settings."
+    },
+    {
+      "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "label": "Top padding",
+      "id": "top_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "label": "Bottom padding",
+      "id": "bottom_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collage",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "product"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
