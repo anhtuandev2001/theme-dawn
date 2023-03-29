@@ -1,13 +1,13 @@
 {{ 'rich-text.css' | asset_url | stylesheet_tag }}
 
-<div class="{% if section.settings.full_width == true %} {{ section.settings.color_scheme }} bg-main {% endif %}">
-  <div
-    class="container rich-text__content section text-center d-flex flex-d-column align-center {% if section.settings.full_width == false %} bg-main {{ section.settings.color_scheme }} {% endif %}"
-    style="
-      --section-padding-top: {{ section.settings.top_padding }}px;
-      --section-padding-bottom: {{ section.settings.bottom_padding }}px
-    "
-  >
+<div
+  class="{% if section.settings.full_width == false %} rich-text__container container {% endif %} {{ section.settings.color_scheme }} section bg-main"
+  style="
+    --section-padding-top: {{ section.settings.top_padding }}px;
+    --section-padding-bottom: {{ section.settings.bottom_padding }}px
+  "
+>
+  <div class="container rich-text__content text-center d-flex flex-d-column align-center ">
     {% for block in section.blocks %}
       {% case block.type %}
         {% when 'heading' %}

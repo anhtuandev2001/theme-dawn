@@ -1,7 +1,7 @@
 {{ 'collage.css' | asset_url | stylesheet_tag }}
 
 <div
-  class="section {{ section.settings.color_scheme }}"
+  class="section bg-main {{ section.settings.color_scheme }}"
   style="
     --section-padding-top: {{ section.settings.top_padding }}px;
     --section-padding-bottom: {{ section.settings.bottom_padding }}px
@@ -38,7 +38,7 @@
           {%- endif -%}
         {%- when 'collection' -%}
           {%- if block.settings.collection != blank -%}
-            <a href="{{ block.settings.collection.url }}" class="d-block collage__collection">
+            <a href="{{ block.settings.collection.url }}" class="d-block collage__collection icon-arrow-right-hover">
               <div class="collage__collection-media">
                 {%- if block.settings.collection.image != blank -%}
                   <img

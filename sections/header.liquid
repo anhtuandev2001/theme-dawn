@@ -1,7 +1,11 @@
 {{ 'header.css' | asset_url | stylesheet_tag }}
 
+{% liquid
+  assign classes = section.settings.color_scheme
+%}
+
 <div
-  class="js-header__container section {{ section.settings.color_scheme }}"
+  class="js-header__container bg-main section {{ section.settings.color_scheme }}"
   style="
     --section-padding-top: {{ section.settings.top_padding }}px;
     --section-padding-bottom: {{ section.settings.bottom_padding }}px
@@ -24,20 +28,9 @@
     </a>
     <div class="header__group text-right d-flex align-center">
       <a href="{{ routes.account_url }}" class="d-none d-inline-block-lg">
-        {%- render 'icon-user' -%}
+        {%- render 'icon-user', class: classes -%}
       </a>
-      {%- if cart.empty? == true -%}
-        <a href="{{ routes.cart_url }}" class=" header__icon-bag d-inline-block">
-          {%- render 'icon-bag-empty' -%}
-        </a>
-      {%- else -%}
-        <a href="{{ routes.cart_url }}" class="p-relative  header__icon-bag d-inline-block">
-          {%- render 'icon-bag' -%}
-          <span id="cart-item-count" class="cart-quantity color-btn bg-btn p-absolute flex-center">
-            {{- cart.item_count -}}
-          </span>
-        </a>
-      {%- endif -%}
+      <a href="{{ routes.cart_url }}" class="header__cart"></a>
     </div>
     <nav class="header__nav p-relative">
       <div class="header__menu js-header__menu d-none-lg">
@@ -56,10 +49,10 @@
                 {%- render 'icon-vector-up', class: 'header__icon-vector-up header__icon-vector d-none' -%}
                 {% render 'icon-arrow-right', class: 'd-none-lg' %}
                 <div class="header__nav-child-container js-header__nav-child-list p-absolute d-none-lg bg-main js-header__nav-child-list">
-                  <div class="header__nav-child-text js-header__nav-child-text d-none-lg body-2 color-text">
+                  <div class="header__nav-child-text d-none-lg js-header__nav-child-text d-none-lg body-2 color-text">
                     <span>{{ link.title }}</span>
                   </div>
-                  <ul class="header__nav-child-list list-style-none ">
+                  <ul class="header__nav-child-list d-flex-lg flex-d-column list-style-none ">
                     {% for childlink in link.links %}
                       <li class="header__nav-child-item {% if forloop.first != true %} header__nav-child-item--margin{% endif %}">
                         <a
@@ -80,47 +73,51 @@
             </li>
           {%- endfor -%}
         </ul>
-        <div class="menu-section d-none-lg bg-main">
+        <div class="menu-section d-none-lg bg-bg-2">
           {%- if shop.customer_accounts_enabled -%}
             <a href="{{ routes.account_url }}" class="d-flex align-center d-none-lg menu-section__log-in">
               {%- render 'icon-user', class: 'menu-section__icon' -%}
               <span class="body-2">Log in</span>
             </a>
           {%- endif -%}
-          <div class="menu-section__socal">
-            {%- if settings.social_twitter_link != blank -%}
-              <a href="{{ settings.social_twitter_link }}" class="menu-section__socal-item">
-                {% render 'icon-twitter' %}
-              </a>
-            {%- endif -%}
-            {%- if settings.social_facebook_link != blank -%}
-              <a href="{{ settings.social_facebook_link }}" class="menu-section__socal-item">
-                {% render 'icon-facebook' %}
-              </a>
-            {%- endif -%}
-            {%- if settings.social_instagram_link != blank -%}
-              <a href="{{ settings.social_instagram_link }}" class="menu-section__socal-item">
-                {% render 'icon-instagram' %}
-              </a>
-            {%- endif -%}
-            {%- if settings.social_tiktok_link != blank -%}
-              <a href="{{ settings.social_tiktok_link }}" class="menu-section__socal-item">
-                {% render 'icon-tiktok' %}
-              </a>
-            {%- endif -%}
-            {%- if settings.social_youtube_link != blank -%}
-              <a href="{{ settings.social_youtube_link }}" class="menu-section__socal-item">
-                {% render 'icon-youtube' %}
-              </a>
-            {%- endif -%}
-          </div>
+          {%- render 'component-list-icon', type: 'social' -%}
         </div>
       </div>
     </nav>
   </div>
 </div>
 
-<script src="{{ 'header.js' | asset_url }}" defer></script>
+<script defer>
+  const cartItemCount = document.getElementById('cart-item-count');
+  const headerCart = document.querySelector('.header__cart');
+
+  function updateCartItemCount() {
+    fetch('/cart.json')
+      .then((response) => response.json())
+      .then((data) => {
+        const itemCount = data.item_count;
+        if (itemCount == 0) {
+          headerCart.innerHTML = `<a href="{{ routes.cart_url }}" class=" header__icon-bag cart-quantity d-inline-block">
+        {%- render 'icon-bag-empty' -%}
+      </a> `;
+        } else {
+          headerCart.innerHTML = `<a href="{{ routes.cart_url }}" class="p-relative  header__icon-bag d-inline-block">
+        {%- render 'icon-bag' -%}
+        <span id="cart-item-count" class="cart-quantity color-btn bg-btn p-absolute flex-center">
+          ${itemCount}
+        </span>
+      </a>`;
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching cart data:', error);
+      });
+  }
+
+  updateCartItemCount();
+</script>
+
+<script src="{{ 'header.js' | asset_url }}"></script>
 
 {% schema %}
 {

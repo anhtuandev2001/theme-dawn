@@ -1,0 +1,6 @@
+{%- case type -%}
+  {%- when 'sale' -%}
+    <span class="caption-1 product-status {{ class }} bg-accent-2 color-text-inverse">Sale</span>
+  {%- when 'sold out' -%}
+    <span class="product-status {{ class }} caption-1 bg-accent-1 color-text-inverse p-absolute">Sold out</span>
+{%- endcase -%}

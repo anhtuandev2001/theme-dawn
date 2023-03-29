@@ -3,8 +3,11 @@
 }
 
 @media ( min-width: 992px) {
-    .rich-text__content{
-    row-gap: 32px;
+    .rich-text__container{
     max-width: 701px;
+    }
+
+    .rich-text__content{
+        row-gap: 32px;
     }
 }

@@ -1,0 +1,65 @@
+{{ 'collection-banner.css' | asset_url | stylesheet_tag }}
+
+<div class="collection-banner {{ section.settings.color_scheme }} bg-main">
+  <div class="container">
+    <div class="row align-center">
+      <div class="col" style="--w-xs: 12; --w-lg: 6 ">
+        <h2 class="collection-banner__heading heading-1-sm color-text heading-1-lg">{{ collection.title }}</h2>
+      </div>
+      {%- if section.settings.show_collection_image -%}
+        <div class="col" style="--w-xs: 12; --w-lg: 6 ">
+          {%- render 'component-img',
+            img_url: collection.featured_image,
+            alt: 'collection',
+            placehelder_name: 'collection-1',
+            class_img: 'collection-banner__img w-100'
+          -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Collection banner",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "label": "Show collection image",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "default": "bg-1",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "bg-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "bg-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Inverse"
+        }
+      ],
+      "info": "To change the card color scheme, update your theme settings."
+    }
+  ],
+  "blocks": []
+}
+{% endschema %}

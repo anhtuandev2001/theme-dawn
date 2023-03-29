@@ -1,0 +1,38 @@
+.product-status {
+    padding: 4px 12px;
+    border-radius: 99px;
+  }
+
+  .icon-arrow-right {
+    width: 17px;
+    transition: width ease-in 0.1s;
+  }
+
+  .icon-arrow-right:hover,
+  .icon-arrow-right-hover:hover .icon-arrow-right {
+    width: 20;
+  }
+
+
+  .quantity__icon{
+    cursor: pointer;
+}
+
+.quantity{
+    max-width: 138px;
+    padding: 12px;
+    border: 1px solid var(--color-border-light);
+}
+
+.quantity__input::-webkit-outer-spin-button,
+.quantity__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity__input {
+    max-width: 50px;
+    border: none;
+    -moz-appearance: textfield;
+    outline: none;
+}

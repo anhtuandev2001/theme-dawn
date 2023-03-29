@@ -1,20 +1,20 @@
-// /Script để update số lượng sản phẩm trong giỏ hàng
-
-// Lấy thẻ HTML chứa số lượng sản phẩm trong giỏ hàng
-const cartItemCount = document.getElementById("cart-item-count");
-
-// Lấy số lượng sản phẩm trong giỏ hàng từ đối tượng JSON trả về sau khi thêm sản phẩm vào giỏ hàng
-function updateCartItemCount() {
-  fetch("/cart.json")
-    .then((response) => response.json())
-    .then((data) => {
-      const itemCount = data.item_count;
-      cartItemCount.textContent = itemCount;
-    })
-    .catch((error) => {
-      console.error("Error fetching cart data:", error);
-    });
+// add to cart
+function addToCart(productId, variantId) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/cart/add.js');
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      // Update cart count
+      updateCartItemCount();
+      showSuccessToast();
+    } else {
+      alert('Error adding product to  cart: ' + xhr.responseText);
+    }
+  };
+  xhr.send(JSON.stringify({
+    'id': variantId,
+    'quantity': 1
+  }));
 }
-
-// Gọi hàm updateCartItemCount để cập nhật số lượng sản phẩm ban đầu
-updateCartItemCount();
+//

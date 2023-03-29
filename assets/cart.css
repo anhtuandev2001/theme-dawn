@@ -1,0 +1,83 @@
+.card, .cart__container{
+    row-gap: 40px;
+}
+
+.cart__title{
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: "title-product title-total";
+    padding-bottom: 17px;
+    border-bottom:1px solid var(--color-border-light) ;
+}
+
+.cart__title-product{
+    grid-area: title-product;
+}
+
+.cart__title-total{
+    grid-area: title-total;
+}
+
+.cart__title-quantity{
+    grid-area: title-quantity;
+}
+
+.cart__item{
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto;
+    grid-template-areas: "img info total"
+                        "img quantity total";
+                        column-gap: 26.5px;
+                        row-gap: 7px;
+}
+
+.cart__product-img{
+    grid-area: img;
+    width: 75px;
+    aspect-ratio: 1;
+}
+
+.cart__input{
+    border: none;
+    outline: none;
+}
+
+.cart__product-info{
+    grid-area: info;
+    row-gap: 7px;
+}
+
+.cart__product-quantity{
+    grid-area: quantity;
+    gap: 8px;
+}
+
+.cart__product-total{
+    grid-area: total;
+}
+.cart__empty{
+    margin-bottom: 40px;
+}
+
+.cart__checkout{
+    padding-top: 23px;
+    row-gap: 16px;
+    border-top:1px solid var(--color-border-light) ;
+}
+
+@media (min-width: 992px) {
+    .cart__title{
+        grid-template-columns: 8fr 2fr 2fr;
+        grid-template-areas: "title-product title-quantity title-total";
+    }
+
+    .cart__item{
+        grid-template-columns: 1fr 7fr 2fr 2fr;
+        column-gap: 24px;
+        grid-template-areas: "img info quantity total";
+    }
+
+    .cart__btn{
+        width: 357px;
+    }
+}

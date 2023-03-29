@@ -1,0 +1,298 @@
+{{ 'footer.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="section bg-main footer {{ section.settings.color_scheme }}"
+  style="
+    --section-padding-top: {{ section.settings.top_padding }}px;
+    --section-padding-bottom: {{ section.settings.bottom_padding }}px
+  "
+>
+  <div class="footer__container">
+    <div class="container d-flex flex-d-column footer__menu-container ">
+      <div class="row {% if section.blocks.size == 1 %} text-center-lg  {% endif %} footer__menu">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'quick_links' -%}
+              <div
+                class="col"
+                style="--w-xs: 12;--w-lg:{% if section.blocks.size < 4 %} {{ 12.0 | divided_by: section.blocks.size }} {% else %} 4 {% endif %}"
+              >
+                <h3 class="footer__menu-heading heading-3-sm color-text">
+                  {{ block.settings.heading }}
+                </h3>
+                <ul class="footer__menu-list d-flex flex-d-column list-style-none">
+                  {%- for link in block.settings.menu.links -%}
+                    <li class="footer__menu-item">
+                      <a href="{{ link.url }}" class="body-2 color-text d-block">{{ link.title }}</a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- when 'text' -%}
+              <div
+                class="col d-flex flex-d-column footer__text-list"
+                style="--w-xs: 12;--w-lg:{% if section.blocks.size < 4 %} {{ 12.0 | divided_by: section.blocks.size }} {% else %} 4 {% endif %}"
+              >
+                <h3 class="footer__text-heading heading-3-sm color-text">{{ block.settings.heading_text }}</h3>
+                <div class="footer__text-subtext body-2 color-text word-break-break-word">
+                  {{ block.settings.decription }}
+                </div>
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+      <div class="footer__email flex-d-column-md d-flex align-center {% if section.settings.show_email_signup == false or section.settings.show_social_media == false %} justify-center-lg {% endif %} ">
+        {%- if section.settings.show_email_signup -%}
+          <div class="w-100 flex-1 text-center-md {% if section.settings.show_social_media == false %} text-center {% endif %}">
+            <h3 class="footer__email-heading heading-3-sm color-text">Subscribe to our emails</h3>
+            {% comment %}
+              <div class="footer__email-container bg-bg-1 d-flex align-center">
+                <input
+                  type="text"
+                  class="footer__email-input flex-1 h-100"
+                  placeholder="Email"
+                >
+                {%- render 'icon-arrow-right', class: 'color-text-default' -%}
+              </div>
+            {% endcomment %}
+            {% form 'customer' %}
+              {{ form.errors | default_errors }}
+              {% if form.posted_successfully? %}
+                <div class="footer__email-container bg-bg-1 d-flex align-center">
+                  <input
+                    type="hidden"
+                    name="contact[tags]"
+                    value="newsletter"
+                  >
+                  <input
+                    type="email"
+                    name="contact[email]"
+                    id="Email"
+                    class="footer__email-input flex-1 h-100"
+                    value="{% if customer %}{{ customer.email }}{% endif %}"
+                    placeholder="Email"
+                    autocorrect="off"
+                    autocapitalize="off"
+                  >
+                  <span class="input-group__btn bg-bg-1">
+                    <button
+                      type="submit"
+                      class="footer__btn bg-bg-1 cursor-pointer"
+                      name="commit"
+                      id="Subscribe"
+                    >
+                      {%- render 'icon-arrow-right', class: 'color-text-default' -%}
+                    </button>
+                  </span>
+                </div>
+                <p class="h4 mt-15">Success!</p>
+              {% else %}
+                <div class="footer__email-container bg-bg-1 d-flex align-center">
+                  <input
+                    type="hidden"
+                    name="contact[tags]"
+                    value="newsletter"
+                  >
+                  <input
+                    type="email"
+                    name="contact[email]"
+                    id="Email"
+                    class="footer__email-input flex-1 h-100"
+                    value="{% if customer %}{{ customer.email }}{% endif %}"
+                    placeholder="Email"
+                    autocorrect="off"
+                    autocapitalize="off"
+                  >
+                  <span class="input-group__btn bg-bg-1">
+                    <button
+                      type="submit"
+                      class="footer__btn bg-bg-1 cursor-pointer"
+                      name="commit"
+                      id="Subscribe"
+                    >
+                      {% render 'icon-arrow-right', class: 'color-text-default' %}
+                    </button>
+                  </span>
+                </div>
+              {% endif %}
+            {% endform %}
+          </div>
+        {%- endif -%}
+        {%- if section.settings.show_social_media -%}
+          {%- render 'component-list-icon', type: 'social', class_list: 'justify-center-md' -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+  <div class="container d-flex flex-d-column-md justify-between-lg align-center-md text-center-md footer__language">
+    {%- if section.settings.enable_language and localization.available_languages.size > 1 -%}
+      <div class="footer__language-container d-flex flex-d-column">
+        <label for="footer__language-select" class="color-text caption-1">Language</label>
+        <select name="footer__language-select" id="footer__language-select" class="footer__language-select caption-1">
+          {%- for language in localization.available_languages -%}
+            <option value="{{ language.name }}">{{ language.name }}</option>
+          {%- endfor -%}
+        </select>
+      </div>
+    {%- endif -%}
+    {%- if section.settings.show_payment -%}
+      {% render 'component-list-icon', type: 'payment', class_list: 'footer__payment-list' %}
+    {%- endif -%}
+  </div>
+  <span class="text-center d-block footer__source w-100 color-text"
+    >© {{ 'now' | date: '%Y' }}, {{ shop.name }} Powered by Shopify</span
+  >
+</div>
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "footer",
+  "blocks": [
+    {
+      "name": "Quick links",
+      "type": "quick_links",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Quick links",
+          "label": "heading"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "menu",
+          "default": "main-menu"
+        }
+      ]
+    },
+    {
+      "name": "Text",
+      "type": "text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading_text",
+          "default": "Our mission",
+          "label": "heading"
+        },
+        {
+          "type": "richtext",
+          "id": "decription",
+          "label": "Subtext"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "default": "bg-1",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "bg-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "bg-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Inverse"
+        }
+      ],
+      "info": "To change the card color scheme, update your theme settings."
+    },
+    {
+      "type": "header",
+      "content": "EMAIL SIGNUP"
+    },
+    {
+      "type": "checkbox",
+      "label": "Show email signup",
+      "id": "show_email_signup",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Subscribe to our emails",
+      "label": "heading"
+    },
+    {
+      "type": "header",
+      "content": "SOCIAL MEDIA ICONS"
+    },
+    {
+      "type": "checkbox",
+      "label": "Show social media icons",
+      "id": "show_social_media",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "LANGUAGE SELECTOR"
+    },
+    {
+      "type": "checkbox",
+      "label": "Enable language selector",
+      "id": "enable_language",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "PAYMENT METHODS"
+    },
+    {
+      "type": "checkbox",
+      "label": "Show payment icons",
+      "id": "show_payment",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "POLICY LINKS"
+    },
+    {
+      "type": "checkbox",
+      "label": "Show policy links",
+      "id": "show_policy_links",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "label": "Top padding",
+      "id": "top_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "label": "Bottom padding",
+      "id": "bottom_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    }
+  ]
+}
+{% endschema %}

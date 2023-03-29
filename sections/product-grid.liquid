@@ -1,0 +1,149 @@
+{{ 'product-grid.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="section bg-1"
+  style="
+    --section-padding-top: {{ section.settings.top_padding }}px;
+    --section-padding-bottom: {{ section.settings.bottom_padding }}px
+  "
+>
+  <div class="container">
+    <div class="row product-grid__list">
+      {%- for product in collection.products limit: section.settings.max_product -%}
+        <div
+          class="col"
+          style="--w-lg: {{ 12.0 | divided_by: section.settings.columns_lg }}; {% if section.settings.colmn_xs == "one-column" %} --w-xs: 12 {% else %} --w-xs: 6 {% endif %}"
+        >
+          {%- render 'component-card',
+            product: product,
+            image_ratio: section.settings.image_ratio,
+            second_img_hover: section.settings.second_img_hover,
+            add_button: section.settings.add_button,
+            card_color: 'color-text'
+          -%}
+        </div>
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.enable_view_all != blank -%}
+      <div class="text-center">
+        <a
+          href="{{ section.settings.collection.url }}"
+          class="product-grid__btn text-btn d-inline-block color-text {{ section.settings.view_all_style }}"
+          >View all</a
+        >
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product gird",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "label": "Products per page",
+      "id": "max_product",
+      "max": 32,
+      "min": 4,
+      "step": 4,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "label": "Number of columns on desktop",
+      "id": "columns_lg",
+      "max": 5.0,
+      "min": 1.0,
+      "step": 1.0,
+      "default": 4.0
+    },
+    {
+      "type": "header",
+      "content": "PRODUCT CARD"
+    },
+    {
+      "type": "select",
+      "label": "Image ratio",
+      "id": "image_ratio",
+      "default": "card-adapt",
+      "options": [
+        {
+          "value": "card-adapt",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "card-portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "card-square",
+          "label": "Square"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "label": "Show second image on hover",
+      "id": "second_img_hover",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "label": "Show vendor",
+      "id": "show_vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "label": "Enable quick add button",
+      "id": "add_button",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "MOBILE LAYOUT"
+    },
+    {
+      "type": "select",
+      "id": "colmn_xs",
+      "label": "Number of columns on mobile",
+      "default": "one-column",
+      "options": [
+        {
+          "value": "one-column",
+          "label": "one column"
+        },
+        {
+          "value": "two-column",
+          "label": "two column"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "label": "Top padding",
+      "id": "top_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "label": "Bottom padding",
+      "id": "bottom_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    }
+  ],
+  "blocks": []
+}
+{% endschema %}

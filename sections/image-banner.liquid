@@ -49,7 +49,7 @@
           {%- when 'button' -%}
             {%- if block.settings.first_btn != blank -%}
               <a
-                href="#"
+                href="{{ block.settings.first_btn_link }}"
                 class="image-banner__btn {% if block.settings.first_btn != blank and block.settings.second_btn != blank %}  image-banner__btn-margin {% endif %} d-inline-block  image-banner__content--gap btn {% if block.settings.outline_first_btn %} btn-outline {% endif %} {% if block.settings.first_btn_link == blank %} btn--disable {% endif %} "
               >
                 {{- block.settings.first_btn -}}
@@ -57,7 +57,7 @@
             {%- endif -%}
             {%- if block.settings.second_btn != blank -%}
               <a
-                href="#"
+                href="{{ block.settings.second_btn_link }}"
                 class="image-banner__btn d-inline-block  image-banner__content--gap btn {% if block.settings.outline_second_btn %} btn-outline {% endif %} {% if block.settings.second_btn_link == blank %} btn--disable {% endif %}"
               >
                 {{- block.settings.second_btn -}}

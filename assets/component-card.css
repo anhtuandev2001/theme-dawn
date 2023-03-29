@@ -38,9 +38,7 @@
   text-decoration-line: line-through;
 }
 
-.card-icon-sale{
-  padding: 4px 12px;
-  border-radius: 99px;
+.card-icon-status{
   bottom: 8px;
   left: 8px;
 }

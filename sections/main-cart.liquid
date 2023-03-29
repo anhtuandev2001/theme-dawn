@@ -1,0 +1,188 @@
+{{ 'cart.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="section bg-bg-1 {{ section.settings.color_scheme }}"
+  style="
+    --section-padding-top: {{ section.settings.top_padding }}px;
+    --section-padding-bottom: {{ section.settings.bottom_padding }}px
+  "
+>
+  {%- if cart.empty? == false -%}
+    {%- form 'cart', cart -%}
+      <div class="container card d-flex flex-d-column">
+        <div class="align-center d-flex justify-between">
+          <h2 class="heading-1-sm color-text-default heading-1-lg">Your cart</h2>
+          <a href="{{ shop.url }}" class="cart__continue-shopoing color-text-default body-1 text-underline"
+            >Continue shopping</a
+          >
+        </div>
+        <div class="cart__container d-flex flex-d-column">
+          <div class="cart__title d-grid">
+            <span class="cart__title-product caption-1 color-text-subdued">PRODUCT</span>
+            <span class="cart__title-quantity caption-1 d-none d-block-lg color-text-subdued">QUANTITY</span>
+            <span class="cart__title-total text-right caption-1 color-text-subdued">TOTAL</span>
+          </div>
+          {%- for item in cart.items -%}
+            <div class="cart__item d-grid">
+              <a href="{{ item.url }}" class="cart__product-img d-block">
+                {%- render 'component-img',
+                  img_url: item.image,
+                  class_img: '',
+                  enable_placeholder: true,
+                  placehelder_name: 'product-1',
+                  alt: 'image'
+                -%}
+              </a>
+              <div class="cart__product-info d-flex flex-d-column">
+                {%- assign variant_name = item.title | split: ' - ' -%}
+                <span class="cart__product-title d-block w-100 body-1 color-text-default">{{ variant_name[0] }}</span>
+                <span class="cart__product-variant d-block w-100 color-text-subdued body-2"
+                {%- if variant_name.size != 1 -%}
+                    >Color: {{ variant_name[1] -}}
+                {%- endif -%}
+                </span>
+              </div>
+              <span class="cart__product-quantity d-flex align-center">
+                <span class="quantity d-flex align-center">
+                  {% render 'icon-minus', class: 'quantity__icon cart-minus' %}
+                  <input
+                    type="number"
+                    class="caption-1 quantity__input cart__input flex-1 text-center"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                  >
+                  {% render 'icon-plus', class: 'quantity__icon cart-plus' %}
+                </span>
+                <a href="{{ item.url_to_remove }}" class="">
+                  {%- render 'icon-delete' -%}
+                </a>
+              </span>
+              <span class="cart__product-total text-right-lg body-1 color-text-default">
+                {{- item.final_line_price | money_without_trailing_zeros -}}
+              </span>
+            </div>
+          {%- endfor -%}
+        </div>
+        <div class="cart__checkout text-center d-flex flex-d-column text-right-lg align-end-lg">
+          <span class="body-1 color-text-defautl cart__checkout-total text-light"
+            >Total: {{ cart.total_price | money_without_trailing_zeros -}}
+          </span>
+          <span class="color-text-defautl caption-1 cart__checkout-title"
+            >Taxes and shipping calculated at checkout</span
+          >
+          <button
+            class="btn cart__btn"
+            type="submit"
+            name="update"
+          >
+            update
+          </button>
+          <button
+            class="btn cart__btn"
+            type="submit"
+            name="checkout"
+          >
+            Checkout
+          </button>
+        </div>
+      </div>
+    {%- endform -%}
+  {%- else -%}
+    <div class="text-center">
+      <h1 class="heading-0-sm heading-0-lg color-text-default text-center cart__empty">Your cart is empty</h1>
+      <a href="{{ shop.url }}" class="btn">continue shopping</a>
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  const cartItems = document.querySelectorAll('.cart__item');
+
+  cartItems.forEach((cartItem) => {
+    let cartInputValue = Number(cartItem.querySelector('.cart__input').value);
+    const cartMinus = cartItem.querySelector('.cart-minus');
+    const cartPlus = cartItem.querySelector('.cart-plus');
+
+    cartPlus.addEventListener('click', () => {
+      if (cartInputValue < 100) {
+        cartInputValue += 1;
+        cartItem.querySelector('.cart__input').value = cartInputValue;
+      }
+    });
+
+    cartMinus.addEventListener('click', () => {
+      if (cartInputValue > 1) {
+        cartInputValue -= 1;
+        cartItem.querySelector('.cart__input').value = cartInputValue;
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "main-cart",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "default": "bg-1",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "bg-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "bg-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Inverse"
+        }
+      ],
+      "info": "To change the card color scheme, update your theme settings."
+    },
+    {
+      "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "label": "Top padding",
+      "id": "top_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "label": "Bottom padding",
+      "id": "bottom_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "main-cart",
+      "settings": {},
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

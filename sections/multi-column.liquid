@@ -1,54 +1,49 @@
 {{ 'multi-column.css' | asset_url | stylesheet_tag }}
 
 <div
-  class="section {{ section.settings.color_scheme }}"
+  class="section bg-main {{ section.settings.color_scheme }}"
   style="
     --section-padding-top: {{ section.settings.top_padding }}px;
     --section-padding-bottom: {{ section.settings.bottom_padding }}px
   "
 >
-  <div class="contaner">
+  <div class="container">
     <h2 class="section__heading color-text {{ section.settings.heading_size }} ">{{ section.settings.heading }}</h2>
-  </div>
-  <div class="row">
-    {%- for block in section.blocks -%}
-      <div
-        class="col"
-        style="--w-lg: {{ 12.0 | divided_by: section.settings.columns_lg }}; {% if section.settings.colmn_xs == "one-column" %} --w-xs: 12 {% else %} --w-xs: 6 {% endif %}"
-      >
-        <div class=" multi-column__item ">
-          <div class="row">
-            <div class="col" style="--w-xs: {{ section.settings.image_width }}">
-              {%-
-                render 'component-img',
-                img_url: block.settings.image,
-                class_img: 'multi-column__item-img',
-              -%}
-            </div>
+    <div class="row multi-column__list">
+      {%- for block in section.blocks -%}
+        <div
+          class="col"
+          style="--w-lg: {{ 12.0 | divided_by: section.settings.columns_lg }}; {% if section.settings.colmn_xs == "one-column" %} --w-xs: 12 {% else %} --w-xs: 6 {% endif %}"
+        >
+          <div class=" multi-column__item h-100 d-flex flex-d-column {{ section.settings.text_align }}">
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | img_url: '2000x' }}"
+                class="multi-column__item-media object-cover {{ section.settings.image_width }} {{ section.settings.image_ratio }}"
+              >
+            {%- endif -%}
+
+            {%- if block.settings.heading != blank -%}
+              <h3 class="color-text multi-column__item-heading heading-2-sm">{{ block.settings.heading }}</h3>
+            {%- endif -%}
+            {%- if block.settings.decription != blank -%}
+              <div class="color-text multi-column__item-decription body-1 word-breck-breck-word">
+                {{ block.settings.decription }}
+              </div>
+            {%- endif -%}
+            {%- if block.settings.link_text != blank -%}
+              <a
+                href="{{ block.settings.link }}"
+                class="multi-column__item-link-label color-text body-1 d-flex align-center icon-arrow-right-hover {% if block.settings.link == blank %} btn--disable {% endif %}"
+              >
+                {{- block.settings.link_text -}}
+                {% render 'icon-arrow-right', class: 'multi-column__icon-arrow-right' %}
+              </a>
+            {%- endif -%}
           </div>
-          {%- if block.heading != blank -%}
-            <h3 class="color-text multi-column__item-heading">{{ block.settings.headinga }}</h3>
-          {%- endif -%}
-          {%- if block.settings.decription != blank -%}
-            <div class="color-text multi-column__item-decription word-breck-breck-word">
-              {{ block.settings.decription }}
-            </div>
-          {%- endif -%}
-          {%- if block.settings.link_text != blank -%}
-            <div class="color-text multi-column__item-link-label">{{ block.settings.link_text }}</div>
-          {%- endif -%}
-          {%- if block.settings.link_text != blank -%}
-            <a
-              href="{{ block.settings.link }}"
-              class="multi-column__item-link-label color-text {% if block.settings.link == blank %} btn--disable {% endif %}"
-            >
-              {{- block.settings.link_text -}}
-              {% render 'icon-arrow-right' %}
-            </a>
-          {%- endif -%}
         </div>
-      </div>
-    {%- endfor -%}
+      {%- endfor -%}
+    </div>
   </div>
 </div>
 
@@ -72,7 +67,7 @@
         {
           "type": "text",
           "label": "Heading",
-          "id": "headinga"
+          "id": "heading"
         },
         {
           "type": "richtext",
@@ -123,21 +118,21 @@
       "type": "select",
       "options": [
         {
-          "value": "4",
+          "value": "w-33",
           "label": "One-third with column"
         },
         {
-          "value": "6",
+          "value": "w-50",
           "label": "Half with column"
         },
         {
-          "value": "12",
+          "value": "w-100",
           "label": "Full width with column"
         }
       ],
       "label": "Image width",
       "id": "image_width",
-      "default": "4"
+      "default": "w-33"
     },
     {
       "type": "select",
@@ -181,11 +176,11 @@
           "label": "left"
         },
         {
-          "value": "text-center",
+          "value": "text-center align-center",
           "label": "center"
         }
       ],
-      "default": "text-center",
+      "default": "text-center align-center",
       "label": "Column alignment"
     },
     {
@@ -217,22 +212,6 @@
     },
     {
       "type": "select",
-      "id": "colmn_xs",
-      "label": "Number of columns on mobile",
-      "default": "one-column",
-      "options": [
-        {
-          "value": "one-column",
-          "label": "one column"
-        },
-        {
-          "value": "two-column",
-          "label": "two column"
-        }
-      ]
-    },
-    {
-      "type": "select",
       "id": "color_scheme",
       "default": "bg-1",
       "label": "Color scheme",
@@ -259,6 +238,27 @@
         }
       ],
       "info": "To change the card color scheme, update your theme settings."
+    },
+
+    {
+      "type": "header",
+      "content": "MOBILE LAYOUT"
+    },
+    {
+      "type": "select",
+      "id": "colmn_xs",
+      "label": "Number of columns on mobile",
+      "default": "one-column",
+      "options": [
+        {
+          "value": "one-column",
+          "label": "one column"
+        },
+        {
+          "value": "two-column",
+          "label": "two column"
+        }
+      ]
     },
     {
       "type": "header",

@@ -3,15 +3,20 @@
     {{ content_for_header }}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{ shop.name }}</title>
+    <link rel="shortcut icon" type="image/png" href="{{ 'logo.png' | asset_url}}">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     {{ 'layout.css' | asset_url | stylesheet_tag }}
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'style.css' | asset_url | stylesheet_tag }}
     {{ 'component-card.css' | asset_url | stylesheet_tag }}
+    {{ 'component-list-icon.css' | asset_url | stylesheet_tag }}
   </head>
   <body>
     {% sections 'header-group' %}
     {{ content_for_layout }}
     {% render 'component-toast' %}
+    {% sections 'footer-group' %}
     <script src="{{ 'main.js' | asset_url }}"></script>
   </body>
 </html>

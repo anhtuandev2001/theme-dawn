@@ -1,9 +1,7 @@
 {{ 'video.css' | asset_url | stylesheet_tag }}
 
-{%- assign videoUrl = section.settings.video -%}
-
 <div
-  class="section {{ section.settings.color_scheme }}"
+  class="section bg-main {{ section.settings.color_scheme }}"
   style="
     --section-padding-top: {{ section.settings.top_padding }}px;
     --section-padding-bottom: {{ section.settings.bottom_padding }}px
@@ -30,7 +28,7 @@
       class="video__frame w-100 h-100"
       width="560"
       height="315"
-      src=""
+      src="https://www.youtube.com/embed/{{ section.settings.video.id }}"
       frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       style="display: none"
@@ -41,25 +39,14 @@
 <script src="{{ 'video.js' | asset_url }}"></script>
 
 <script>
-  const videoUrl = '{{ videoUrl | escape }}';
-  const embedLink = convertToEmbedLink(videoUrl);
   const videoFrame = document.querySelector('.video__frame');
   const thumbnail = document.querySelector('.video__img');
   const playBtn = document.querySelector('.play-btn');
 
-  function convertToEmbedLink(link) {
-    const videoId = link.split('v=')[1];
-    const ampersandPosition = videoId.indexOf('&');
-    if (ampersandPosition !== -1) {
-      videoId = videoId.substring(0, ampersandPosition);
-    }
-    return `https://www.youtube.com/embed/${videoId}`;
-  }
   playBtn.addEventListener('click', () => {
     thumbnail.style.display = 'none';
     playBtn.style.display = 'none';
     videoFrame.style.display = 'block';
-    videoFrame.src = embedLink;
     videoFrame.setAttribute('allowfullscreen', '');
   });
 </script>

@@ -1,0 +1,21 @@
+.multi-column__item{
+    row-gap: 16px;
+    padding: 16px;
+    
+}
+
+.multi-column__list{
+    row-gap: 8px;
+    --gap: 8px
+}
+
+.multi-column__icon-arrow-right{
+    margin-left: 8px;
+}
+
+@media (min-width: 992px) {
+    .multi-column__list{
+        row-gap: 10px;
+        --gap: 10px
+    }
+}

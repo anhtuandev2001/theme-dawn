@@ -1,7 +1,7 @@
 {% comment %} product  image_ratio second_img_hover add_button card_color{% endcomment %}
 
 <div class="card__item d-flex flex-d-column {{ card_item_class }} h-100">
-  <a href="{{ product.link }}" class="flex-1 flex-d-column d-flex d-block">
+  <a href="{{ product.url }}" class="flex-1 flex-d-column d-flex d-block">
     <div class="card__media flex-1 p-relative {% if image_ratio != "card-adapt" %} {{ image_ratio }} {% endif %}">
       {%- if product.featured_image != blank -%}
         {%- if second_img_hover == true and product.variants.size > 1 -%}
@@ -31,10 +31,10 @@
           -%}
         {%- endif -%}
         {%- if product.available == false -%}
-          <span class="card-icon-sale caption-1 bg-accent-1 color-text-inverse p-absolute">Sold out</span>
+          {%- render 'componet-product-status', type: 'sold out', class: 'card-icon-status p-absolute' -%}
         {%- endif -%}
         {%- if product.price_max != product.price_min -%}
-          <span class="card-icon-sale caption-1 bg-accent-2 color-text-inverse p-absolute">Sale</span>
+          {%- render 'componet-product-status', type: 'sale', class: 'card-icon-status p-absolute' -%}
         {%- endif -%}
       {%- else -%}
         {{ 'product-1' | placeholder_svg_tag: 'card__img object-cover' }}
@@ -63,7 +63,9 @@
     {%- if product.available == false -%}
       <button class="card__btn sold-out btn btn--disable w-100">Sold out</button>
     {%- elsif product.variants.size > 1 -%}
-      <button class="card__btn choose-option btn button-text w-100">Choose option</button>
+      <a href="{{ product.url }}" class="card__btn d-block text-center choose-option btn button-text w-100"
+        >Choose option</a
+      >
     {%- else -%}
       <button
         onclick="addToCart('{{ product.id }}', '{{ product.selected_or_first_available_variant.id }}') "

@@ -1,0 +1,11 @@
+.icon__list {
+  gap: 24px;
+  padding: 3px 0;
+}
+
+@media (min-width: 992px) {
+  .icon__list {
+    gap: 23px;
+    padding: 0;
+  }
+}

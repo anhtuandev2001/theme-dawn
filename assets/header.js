@@ -1,6 +1,6 @@
 const headerMenu = document.querySelector(".js-header__menu");
 const headerIconMenu = document.querySelector(".js-header__icon-menu");
-const headerIconclose = document.querySelector(".js-header__icon-close");
+const headerIconClose = document.querySelector(".js-header__icon-close");
 const headerNavContainer = document.querySelector(".js-header__nav-container");
 const headerNavChildLists = document.querySelectorAll(".js-header__nav-child-list");
 const body = document.body;
@@ -91,7 +91,7 @@ window.addEventListener("scroll", () => {
  function toggleMenu (){
   headerNavContainer.classList.toggle("header-open-menu"); //   remove header-open-menu of header__nav-container
   headerIconMenu.classList.toggle("icon-menu-show"); //   toggle icon-menu-show of header__icon-menu
-  headerIconclose.classList.toggle("icon-menu-show"); //   toggle icon-menu-show of header__icon-close
+  headerIconClose.classList.toggle("icon-menu-show"); //   toggle icon-menu-show of header__icon-close
   headerNavChildLists.forEach((headerNavChildList) => {
     headerNavChildList.classList.remove("header-open-menu"); //   remove header-open-menu of header__nav-child-list
   });
@@ -110,7 +110,7 @@ window.addEventListener("scroll", () => {
 // toggle class header-open-menu of chile menu
  function toggleChildMenu (event, index){
   let headerNavChildList = headerNavChildLists[index];
-  event.preventDefault();
+  // event.preventDefault();
   headerNavChildList.classList.toggle("header-open-menu");
 };
 
