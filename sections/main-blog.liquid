@@ -14,7 +14,7 @@
           class="col"
           style=" --w-xs: 12; {% if forloop.first == true %} --w-lg: 12 {% else %} --w-lg: 6 {% endif %}"
         >
-          <a href="{{ article.url }}" class="blog__item d-block">
+          <a href="{{ article.url }}" class="blog__item d-flex h-100 flex-d-column">
             {%- render 'component-img',
               img_url: article.image,
               class_img: 'w-100 blog__img',
@@ -22,7 +22,7 @@
               placehelder_name: 'life-1',
               alt: 'image'
             -%}
-            <div class="blog__content bg-bg-2 {% if forloop.first == true %} text-center blog__content-first {% endif %}">
+            <div class="blog__content bg-bg-2 flex-1 {% if forloop.first == true %} text-center blog__content-first {% endif %}">
               <h2 class="blog__title color-text heading-2-sm heading-2-lg">{{ article.title }}</h2>
               <span class="blog__date caption-1 color-text">{{ article.created_at | date: '%B %Y' }}</span>
               <div class="blog__text color-text body-1">{{ article.excerpt }}</div>

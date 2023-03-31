@@ -18,20 +18,87 @@
   </div>
   <div class="article__container container">
     <h2 class="article__title heading-1-sm heading-1-lg color-text">
-      Introducing the latest creation in our Pleated Collection
+      {{ article.title }}
     </h2>
     <span class="article__date caption-1 d-block color-text">{{ article.created_at | date: '%B %Y' }}</span>
-    <span class="article__share d-flex align-center body-2 color-text">
+    <div class="article__share p-relative btn-border-none btn-outline-none d-flex align-center body-2 color-text">
       {%- render 'icon-share', class: 'article__icon-share' -%}
-      Share</span
-    >
+      Share
+      <div class="share-form p-absolute d-none align-center">
+        <input
+          type="text"
+          class="form-control h-100"
+          value="https://kenstore2001.myshopify.com{{ article.url }}"
+          readonly
+        >
+        <button class="btn article-copy">Copy</button>
+      </div>
+    </div>
     <div class="article__content body-1 color-text">{{ article.content }}</div>
     <a href="{{ blog.url }}" class="justify-center text-center article__back body-2 d-flex align-center color-text">
       {%- render 'icon-arrow-left', class: 'article__icon-arrow-left' -%}
       Back to blog</a
     >
+    <div class="article__comments d-flex justify-center">
+      {% form 'new_comment', article %}
+        {{ form.errors | default_errors }}
+
+        <div class="d-flex article__comments-container flex-d-column-md">
+          <div class="article__comments-name article__comments-item d-flex align-center">
+            <label for="caption-1 color-text name">Name</label>
+            <input
+              class="article__comments-input btn-border-none flex-1 btn-outline-none"
+              type="text"
+              name="comment[author]"
+              value="{{ form.author }}"
+            >
+          </div>
+
+          <div class="email article__comments-item d-flex align-center">
+            <label for="caption-1 color-text email">Email</label>
+            <input
+              class="article__comments-input btn-border-none flex-1 btn-outline-none"
+              type="email"
+              name="comment[email]"
+              value="{{ form.email }}"
+            >
+          </div>
+        </div>
+
+        <div class="comment article__comments-text d-flex">
+          <label for="caption-1 color-text comment">Comment</label>
+          <textarea
+            class="article__comments-input btn-border-none flex-1 btn-outline-none"
+            name="comment[body]"
+            rows="5"
+          >{{ form.body }}</textarea>
+        </div>
+
+        <div class="submit">
+          <input class="btn" type="submit" value="Post" class="btn">
+        </div>
+      {% endform %}
+    </div>
   </div>
 </div>
+
+<script>
+  const ipnElement = document.querySelector('.form-control');
+  const btnElement = document.querySelector('.article-copy');
+  const articleShare = document.querySelector('.article__share');
+  const shareForm = document.querySelector('.share-form');
+
+  articleShare.addEventListener('click', () => {
+    shareForm.classList.toggle('d-none');
+  });
+
+  // step 2
+  btnElement.addEventListener('click', function () {
+    btnElement.innerText = 'Copied!'; // step 3
+    ipnElement.select(); // step 4
+    document.execCommand('copy'); // step 5
+  });
+</script>
 
 {% schema %}
 {

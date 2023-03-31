@@ -1,0 +1,103 @@
+{{ 'collection-list.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="section bg-bg-1"
+  style="
+    --section-padding-top: {{ section.settings.top_padding }}px;
+    --section-padding-bottom: {{ section.settings.bottom_padding }}px
+  "
+>
+  <div class="container">
+    <h1 class="section__heading heading-1-sm heading-1-lg">Collections list</h1>
+    <div
+      class="row collection-list-row"
+    >
+      {%- for collection in collections -%}
+        <div
+          class="col"
+          style="--w-lg: {{ 12.0 | divided_by: section.settings.columns_lg }}; {% if section.settings.colmn_xs == "one-column" %} --w-xs: 12 {% else %} --w-xs: 6 {% endif %}"
+        >
+          <a href="{{ collection.url }}" class="d-block collage__collection icon-arrow-right-hover">
+            <div class="collage__collection-media">
+              {%- render 'component-img',
+                img_url: collection,
+                class_img: 'h-100 collage__collection-img',
+                enable_placeholder: true,
+                placehelder_name: 'collection-1',
+                alt: 'image'
+              -%}
+            </div>
+            <span class="collage__collection-title color-text align-center d-flex body-1">
+              {{ collection.title }}
+              {%- render 'icon-arrow-right', class: 'collage__icon-arrow-right' -%}
+            </span>
+          </a>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection list",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "label": "Number of columns on desktop",
+      "id": "columns_lg",
+      "max": 5.0,
+      "min": 1.0,
+      "step": 1.0,
+      "default": 4.0
+    },
+    {
+      "type": "header",
+      "content": "MOBILE LAYOUT"
+    },
+    {
+      "type": "select",
+      "id": "colmn_xs",
+      "label": "Number of columns on mobile",
+      "default": "one-column",
+      "options": [
+        {
+          "value": "one-column",
+          "label": "one column"
+        },
+        {
+          "value": "two-column",
+          "label": "two column"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "label": "Top padding",
+      "id": "top_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "label": "Bottom padding",
+      "id": "bottom_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    }
+  ],
+  "blocks": [],
+  "disabled_on": {
+    "groups": ["footer", "header"]
+  }
+}
+{% endschema %}
