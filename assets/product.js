@@ -158,6 +158,7 @@ addToCartBtn.addEventListener("click", function () {
       body: formData,
     })
       .then(function (response) {
+        headerContainer.style.top = '0';
         showSuccessToast();
         updateCartItemCount();
       })

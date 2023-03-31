@@ -9,11 +9,23 @@ const headerNavChildTexts = document.querySelectorAll(".js-header__nav-child-tex
 const notification = document.querySelector('.js-notification')
 const headerContainer = document.querySelector(".js-header__container");
 const announcementBar = document.querySelector(".announcement-bar");
+const headerSearch = document.querySelector('.header__search');
+const headerSearchContainer = document.querySelector('.header__search-container');
+const headerFormClose = document.querySelector('.header__form-close');
+const headerModal = document.querySelector('.header__modal');
+const headerModalMenu = document.querySelector('.header__modal-menu');
 
 // header__menu click
 headerMenu.addEventListener("click", () => {
   toggleMenu();
   showNavItem();
+  headerModalMenu.classList.toggle('d-none');
+});
+
+headerModalMenu.addEventListener('click',()=>{
+  toggleMenu();
+  showNavItem();
+  headerModalMenu.classList.toggle('d-none');
 });
 // 
 
@@ -60,10 +72,10 @@ const srollHeader = announcementHeight + headerHeight;
 window.addEventListener("scroll", () => {
   if (window.scrollY > srollHeader) { // khi scroll qua announ + header
     headerContainer.classList.add("header-scroll");
-    paddingAnnoun(headerHeight);
+    paddingBody(headerHeight);
   } else if (window.scrollY < announcementHeight) {
     headerContainer.classList.remove("header-scroll");
-    paddingAnnoun(0);
+    paddingBody(0);
   }
 });
 // 
@@ -122,9 +134,30 @@ window.addEventListener("scroll", () => {
 };
 
 //set padding-bottom announ
- function paddingAnnoun (paddingValue){
-  announcementBar.style.paddingBottom = `${paddingValue}px`;
+ function paddingBody (paddingValue){
+  body.style.paddingTop = `${paddingValue}px`;
 };
 // 
 //---------end menu----------
+
+// search
+
+
+headerSearch.addEventListener('click', () => {
+  headerSearchContainer.style.transform = 'translateY(0)';
+  headerModal.classList.remove('d-none')
+  body.classList.toggle("no-scroll"); //   body no scroll
+
+});
+
+
+const hiddenSearch = ()=>{
+  headerSearchContainer.style.transform = 'translateY(-140%)';
+  headerModal.classList.add('d-none');
+  body.classList.toggle("no-scroll"); //   body no scroll
+};
+
+headerFormClose.addEventListener('click', hiddenSearch);
+
+headerModal.addEventListener('click',hiddenSearch);
 

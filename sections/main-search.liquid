@@ -1,0 +1,166 @@
+{{ 'product-grid.css' | asset_url | stylesheet_tag }}
+{{ 'search.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="section bg-1"
+  style="
+    --section-padding-top: {{ section.settings.top_padding }}px;
+    --section-padding-bottom: {{ section.settings.bottom_padding }}px
+  "
+>
+  <div class="container">
+    <h1 class="search__heading text-center heading-2-lg heading-2-sm color-text">Search results</h1>
+    <div class="bg-bg-1 bg-bg-1 flex-center">
+      <form action="{{ routes.search_url }}" class="header__form d-flex align-center mg-0">
+        <input
+          type="text"
+          placeholder="Search"
+          class="header__form-input search__input flex-1 h-100 btn-border-none btn-outline-none"
+          name="q"
+          value="{{ search.terms | escape }}"
+        >
+        <button type="submit" class="btn-border-none btn-outline-none bg-bg-1">
+          {%- render 'icon-search', class: 'cursor-pointer' -%}
+        </button>
+      </form>
+    </div>
+    <span class="heading__title text-center w-100 d-block text-btn color-text">
+      {{- search.results.size }} results found for
+    </span>
+    <div class="row product-grid__list search__product-list">
+      {%- for product in search.results limit: section.settings.max_product -%}
+        <div
+          class="col"
+          style="--w-lg: {{ 12.0 | divided_by: section.settings.columns_lg }}; {% if section.settings.colmn_xs == "one-column" %} --w-xs: 12 {% else %} --w-xs: 6 {% endif %}"
+        >
+          {%- render 'component-card',
+            product: product,
+            image_ratio: section.settings.image_ratio,
+            second_img_hover: section.settings.second_img_hover,
+            add_button: section.settings.add_button,
+            card_color: 'color-text'
+          -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<script>
+  const searchInputValue = document.querySelector('.search__input').value;
+  const headingTitle = document.querySelector('.heading__title');
+
+  headingTitle.innerHTML = `{{ search.results.size }} results found for “${searchInputValue}”`;
+</script>
+
+{% schema %}
+{
+  "name": "Product gird",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "label": "Products per page",
+      "id": "max_product",
+      "max": 32,
+      "min": 4,
+      "step": 4,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "label": "Number of columns on desktop",
+      "id": "columns_lg",
+      "max": 5.0,
+      "min": 1.0,
+      "step": 1.0,
+      "default": 4.0
+    },
+    {
+      "type": "header",
+      "content": "PRODUCT CARD"
+    },
+    {
+      "type": "select",
+      "label": "Image ratio",
+      "id": "image_ratio",
+      "default": "card-adapt",
+      "options": [
+        {
+          "value": "card-adapt",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "card-portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "card-square",
+          "label": "Square"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "label": "Show second image on hover",
+      "id": "second_img_hover",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "label": "Show vendor",
+      "id": "show_vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "label": "Enable quick add button",
+      "id": "add_button",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "MOBILE LAYOUT"
+    },
+    {
+      "type": "select",
+      "id": "colmn_xs",
+      "label": "Number of columns on mobile",
+      "default": "one-column",
+      "options": [
+        {
+          "value": "one-column",
+          "label": "one column"
+        },
+        {
+          "value": "two-column",
+          "label": "two column"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "label": "Top padding",
+      "id": "top_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "label": "Bottom padding",
+      "id": "bottom_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    }
+  ],
+  "blocks": []
+}
+{% endschema %}

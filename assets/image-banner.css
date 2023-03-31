@@ -201,5 +201,5 @@
     }
 
     .height-banner-adapt{
-        height: unset;
+        min-height: 280px;
     }

@@ -8,6 +8,90 @@
         "theme_support_url": "https:\/\/support.shopify.com\/"
     },
     {
+        "name": "Font heading size",
+        "settings": [
+            {
+                "type": "range",
+                "id": "heading_size",
+                "label":"heading size",
+                "max": 200,
+                "min":50,
+                "default": 100,
+                "step":10
+            }
+        ]
+    },
+    {
+        "name": "color",
+        "settings": [
+          {
+            "type": "color",
+            "id": "color_bg_1",
+            "default": "#ffffff",
+            "label": "Background 1"
+          },
+          {
+            "type": "color",
+            "id": "color_bg_2",
+            "default": "#f0f0f0",
+            "label": "Background 2"
+          },
+          {
+            "type": "color",
+            "id": "color_accent_1",
+            "default": "#000000",
+            "label": "Accent 1"
+          },
+          {
+            "type": "color",
+            "id": "color_accent_2",
+            "default": "#3752b2",
+            "label": "Accent 2"
+          },{
+            "type": "color",
+            "id": "color_gray_9",
+            "default": "#4d4d4d",
+            "label": "Gray 9"
+          },
+          {
+            "type": "color",
+            "id": "color_surface_default",
+            "default": "#ffffff",
+            "label": "Surface default"
+          },
+          {
+            "type": "color",
+            "id": "color_border_dark",
+            "default": "#7d7d7d",
+            "label": "Border dark"
+          },
+          {
+            "type": "color",
+            "id": "color_border_light",
+            "default": "#d0d0d0",
+            "label": "Border light"
+          },
+          {
+            "type": "color",
+            "id": "color_text_default",
+            "default": "#121212",
+            "label": "Text default"
+          },
+          {
+            "type": "color",
+            "id": "color_text_subdued",
+            "default": "rgba(18, 18, 18, 0.75)",
+            "label": "Text subdued"
+          },
+          {
+            "type": "color",
+            "id": "color_text_inverse",
+            "default": "#ffffff",
+            "label": "Text inverse"
+          }
+        ]
+      },
+    {
         "name": "social media",
         "settings": [
             {

@@ -45,16 +45,6 @@
         {%- if section.settings.show_email_signup -%}
           <div class="w-100 flex-1 text-center-md {% if section.settings.show_social_media == false %} text-center {% endif %}">
             <h3 class="footer__email-heading heading-3-sm color-text">Subscribe to our emails</h3>
-            {% comment %}
-              <div class="footer__email-container bg-bg-1 d-flex align-center">
-                <input
-                  type="text"
-                  class="footer__email-input flex-1 h-100"
-                  placeholder="Email"
-                >
-                {%- render 'icon-arrow-right', class: 'color-text-default' -%}
-              </div>
-            {% endcomment %}
             {% form 'customer' %}
               {{ form.errors | default_errors }}
               {% if form.posted_successfully? %}
@@ -68,7 +58,7 @@
                     type="email"
                     name="contact[email]"
                     id="Email"
-                    class="footer__email-input flex-1 h-100"
+                    class="footer__email-input bg-bg-1 btn-border-none btn-outline-none flex-1 h-100"
                     value="{% if customer %}{{ customer.email }}{% endif %}"
                     placeholder="Email"
                     autocorrect="off"
@@ -77,7 +67,7 @@
                   <span class="input-group__btn bg-bg-1">
                     <button
                       type="submit"
-                      class="footer__btn bg-bg-1 cursor-pointer"
+                      class="footer__btn btn-border-none btn-outline-none bg-bg-1 cursor-pointer"
                       name="commit"
                       id="Subscribe"
                     >
@@ -97,7 +87,7 @@
                     type="email"
                     name="contact[email]"
                     id="Email"
-                    class="footer__email-input flex-1 h-100"
+                    class="footer__email-input bg-bg-1 btn-border-none btn-outline-none flex-1 h-100"
                     value="{% if customer %}{{ customer.email }}{% endif %}"
                     placeholder="Email"
                     autocorrect="off"
@@ -106,7 +96,7 @@
                   <span class="input-group__btn bg-bg-1">
                     <button
                       type="submit"
-                      class="footer__btn bg-bg-1 cursor-pointer"
+                      class="footer__btn btn-border-none btn-outline-none bg-bg-1 cursor-pointer"
                       name="commit"
                       id="Subscribe"
                     >
@@ -128,7 +118,11 @@
     {%- if section.settings.enable_language and localization.available_languages.size > 1 -%}
       <div class="footer__language-container d-flex flex-d-column">
         <label for="footer__language-select" class="color-text caption-1">Language</label>
-        <select name="footer__language-select" id="footer__language-select" class="footer__language-select caption-1">
+        <select
+          name="footer__language-select"
+          id="footer__language-select"
+          class="footer__language-select caption-1 bg-bg-1"
+        >
           {%- for language in localization.available_languages -%}
             <option value="{{ language.name }}">{{ language.name }}</option>
           {%- endfor -%}
@@ -139,7 +133,7 @@
       {% render 'component-list-icon', type: 'payment', class_list: 'footer__payment-list' %}
     {%- endif -%}
   </div>
-  <span class="text-center d-block footer__source w-100 color-text"
+  <span class="text-center d-block footer__source text-micro w-100 color-text"
     >© {{ 'now' | date: '%Y' }}, {{ shop.name }} Powered by Shopify</span
   >
 </div>

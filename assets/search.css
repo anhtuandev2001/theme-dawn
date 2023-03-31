@@ -1,0 +1,17 @@
+.search__heading{
+    margin-bottom: 32px;
+}
+
+.heading__title{
+    margin-top: 32px;
+}
+
+.search__product-list{
+    margin-top: 40px;
+}
+
+@media (min-width: 992px) {
+    .search__product-list{
+        margin-top: 64px;
+    }
+}

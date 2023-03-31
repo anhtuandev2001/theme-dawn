@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{{ shop.name }}</title>
-    <link rel="shortcut icon" type="image/png" href="{{ 'logo.png' | asset_url}}">
+    <link rel="shortcut icon" type="image/png" href="{{ 'logo.png' | asset_url }}">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     {{ 'layout.css' | asset_url | stylesheet_tag }}
     {{ 'base.css' | asset_url | stylesheet_tag }}
@@ -13,10 +13,11 @@
     {{ 'component-list-icon.css' | asset_url | stylesheet_tag }}
   </head>
   <body>
-    {% sections 'header-group' %}
+    {%- sections 'header-group' -%}
     {{ content_for_layout }}
-    {% render 'component-toast' %}
-    {% sections 'footer-group' %}
+    {%- render 'settings' -%}
+    {%- render 'component-toast' -%}
+    {%- sections 'footer-group' -%}
     <script src="{{ 'main.js' | asset_url }}"></script>
   </body>
 </html>

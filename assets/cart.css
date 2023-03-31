@@ -33,13 +33,7 @@
 
 .cart__product-img{
     grid-area: img;
-    width: 75px;
     aspect-ratio: 1;
-}
-
-.cart__input{
-    border: none;
-    outline: none;
 }
 
 .cart__product-info{
@@ -63,6 +57,12 @@
     padding-top: 23px;
     row-gap: 16px;
     border-top:1px solid var(--color-border-light) ;
+}
+
+@media (max-width: 992px) {
+    .cart__product-img{
+        width: 75px;
+    }
 }
 
 @media (min-width: 992px) {

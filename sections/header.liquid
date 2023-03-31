@@ -5,35 +5,44 @@
 %}
 
 <div
-  class="js-header__container bg-main section {{ section.settings.color_scheme }}"
+  class="js-header__container header p-relative bg-main section {{ section.settings.color_scheme }}"
   style="
     --section-padding-top: {{ section.settings.top_padding }}px;
     --section-padding-bottom: {{ section.settings.bottom_padding }}px
   "
 >
   <div class="container-fluid header__container {{ section.settings.logo-position }} align-center">
-    <a href="{{ routes.search_url }}" class="color-text header__search d-inline-block">
+    <button class="color-text header__search bg-main btn-border-none btn-outline-none cursor-pointer d-inline-block">
       {%- render 'icon-search' -%}
-    </a>
-    <a href="{{ shop.url }}" class="header__logo text-center">
-      {%- render 'component-img',
-        img_url: section.settings.image,
-        class_img: 'header__logo-img w-100 ',
-        enable_placeholder: false,
-        alt: 'logo'
-      -%}
-      {%- if section.settings.image == blank -%}
-        <p class="header__shop-name color-text heading-1-sm">{{ shop.name }}</p>
-      {%- endif -%}
-    </a>
-    <div class="header__group text-right d-flex align-center">
+    </button>
+    <div class="header__logo text-center">
+      <a href="{{ shop.url }}" class="d-block flex-center h-100">
+        {%- render 'component-img',
+          img_url: section.settings.image,
+          class_img: 'header__logo-img w-100 ',
+          enable_placeholder: false,
+          alt: 'logo'
+        -%}
+        {%- if section.settings.image == blank -%}
+          <a href="{{ shop.url }}" class="header__shop-name color-text heading-1-sm">{{ shop.name }}</a>
+        {%- endif -%}
+      </a>
+    </div>
+    <div class="header__group text-right d-flex align-center justify-end">
       <a href="{{ routes.account_url }}" class="d-none d-inline-block-lg">
         {%- render 'icon-user', class: classes -%}
       </a>
-      <a href="{{ routes.cart_url }}" class="header__cart"></a>
+      <a href="{{ routes.cart_url }}" class="header__cart">
+        <span href="{{ routes.cart_url }}" class="p-relative  header__icon-bag d-inline-block">
+          {%- render 'icon-bag' -%}
+          <span id="cart-item-count" class="cart-quantity text-micro color-btn bg-btn p-absolute flex-center">
+            {{ cart.item_count }}
+          </span>
+        </span>
+      </a>
     </div>
     <nav class="header__nav p-relative">
-      <div class="header__menu js-header__menu d-none-lg">
+      <div class="header__menu js-header__menu cursor-pointer d-none-lg">
         {%- render 'icon-menu', class: 'js-header__icon-menu icon-menu-show header__icon-menu d-none' -%}
         {%- render 'icon-close', class: 'js-header__icon-close header__icon-close d-none' -%}
       </div>
@@ -85,7 +94,24 @@
       </div>
     </nav>
   </div>
+  <div class="header__search-container p-absolute bg-bg-1 bg-bg-1 flex-center">
+    <form action="{{ routes.search_url }}" class="header__form d-flex align-center mg-0">
+      <input
+        type="text"
+        placeholder="Search"
+        class="header__form-input flex-1 h-100 btn-border-none btn-outline-none"
+        name="q"
+        value="{{ search.terms | escape }}"
+      >
+      <button type="submit" class="btn-border-none btn-outline-none bg-bg-1">
+        {%- render 'icon-search', class: 'cursor-pointer' -%}
+      </button>
+    </form>
+    {%- render 'icon-close', class: 'header__form-close cursor-pointer' -%}
+  </div>
 </div>
+{%- render 'component-modal', class: 'header__modal' -%}
+{%- render 'component-modal', class: 'header__modal-menu' -%}
 
 <script defer>
   const cartItemCount = document.getElementById('cart-item-count');
@@ -98,12 +124,12 @@
         const itemCount = data.item_count;
         if (itemCount == 0) {
           headerCart.innerHTML = `<a href="{{ routes.cart_url }}" class=" header__icon-bag cart-quantity d-inline-block">
-        {%- render 'icon-bag-empty' -%}
-      </a> `;
+            {%- render 'icon-bag-empty' -%}
+          </a>`;
         } else {
           headerCart.innerHTML = `<a href="{{ routes.cart_url }}" class="p-relative  header__icon-bag d-inline-block">
         {%- render 'icon-bag' -%}
-        <span id="cart-item-count" class="cart-quantity color-btn bg-btn p-absolute flex-center">
+        <span id="cart-item-count" class="cart-quantity text-micro color-btn bg-btn p-absolute flex-center">
           ${itemCount}
         </span>
       </a>`;

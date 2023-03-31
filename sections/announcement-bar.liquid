@@ -1,6 +1,6 @@
 {{ 'announcement-bar.css' | asset_url | stylesheet_tag }}
 
-<div class="announcement-bar" data-blocks-size="{{ section.blocks.size }}">
+<div class="announcement-bar p-relative" data-blocks-size="{{ section.blocks.size }}">
   {%- for block in section.blocks -%}
     <div class="announcement-bar__container bg-main {{ block.settings.color_scheme }} border-bottom-border-light">
       <div class="container">

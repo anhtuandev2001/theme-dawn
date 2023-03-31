@@ -14,7 +14,7 @@
     {%-
       render 'component-img',
       img_url: section.settings.second_image,
-      class_img: 'image-banner__img image-banner__img-first w-100 height-banner-adapt',
+      class_img: 'image-banner__img image-banner__img-second w-100 height-banner-adapt',
     -%}
   {%- else -%}
     {%- render 'component-img',
@@ -25,7 +25,7 @@
     {%-
       render 'component-img',
       img_url: section.settings.second_image,
-      class_img: 'image-banner__img image-banner__img-first w-100',
+      class_img: 'image-banner__img image-banner__img-second w-100',
     -%}
   {%- endif -%}
   {%- if section.settings.first_image == blank and section.settings.second_image == blank -%}
@@ -350,6 +350,9 @@
         }
       ]
     }
-  ]
+  ],
+  "disabled_on": {
+    "groups": ["footer", "header"]
+  }
 }
 {% endschema %}

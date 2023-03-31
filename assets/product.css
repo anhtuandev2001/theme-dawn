@@ -17,11 +17,6 @@
     margin-bottom: 40px;
 }
 
-.slide-control__btn{
-    border: none;
-    cursor: pointer;
-}
-
 .product__img{
     scroll-snap-align: start;
 }
@@ -56,6 +51,10 @@
 
 .product__quantity{
     row-gap: 12px;
+}
+
+a {
+    color: black;
 }
 
 .product__price-container--active{

@@ -1,7 +1,7 @@
 {{ 'cart.css' | asset_url | stylesheet_tag }}
 
 <div
-  class="section bg-bg-1 {{ section.settings.color_scheme }}"
+  class="section bg-main {{ section.settings.color_scheme }}"
   style="
     --section-padding-top: {{ section.settings.top_padding }}px;
     --section-padding-bottom: {{ section.settings.bottom_padding }}px
@@ -11,8 +11,8 @@
     {%- form 'cart', cart -%}
       <div class="container card d-flex flex-d-column">
         <div class="align-center d-flex justify-between">
-          <h2 class="heading-1-sm color-text-default heading-1-lg">Your cart</h2>
-          <a href="{{ shop.url }}" class="cart__continue-shopoing color-text-default body-1 text-underline"
+          <h2 class="heading-1-sm color-text heading-1-lg">Your cart</h2>
+          <a href="{{ shop.url }}" class="cart__continue-shopoing color-text body-1 text-underline"
             >Continue shopping</a
           >
         </div>
@@ -24,10 +24,10 @@
           </div>
           {%- for item in cart.items -%}
             <div class="cart__item d-grid">
-              <a href="{{ item.url }}" class="cart__product-img d-block">
+              <a href="{{ item.url }}" class="cart__product-img d-block w-100-lg">
                 {%- render 'component-img',
                   img_url: item.image,
-                  class_img: '',
+                  class_img: 'h-100',
                   enable_placeholder: true,
                   placehelder_name: 'product-1',
                   alt: 'image'
@@ -35,7 +35,7 @@
               </a>
               <div class="cart__product-info d-flex flex-d-column">
                 {%- assign variant_name = item.title | split: ' - ' -%}
-                <span class="cart__product-title d-block w-100 body-1 color-text-default">{{ variant_name[0] }}</span>
+                <a href="{{ item.url }}" class="cart__product-title d-block w-100 body-1 color-text">{{ variant_name[0] }}</a>
                 <span class="cart__product-variant d-block w-100 color-text-subdued body-2"
                 {%- if variant_name.size != 1 -%}
                     >Color: {{ variant_name[1] -}}
@@ -47,7 +47,7 @@
                   {% render 'icon-minus', class: 'quantity__icon cart-minus' %}
                   <input
                     type="number"
-                    class="caption-1 quantity__input cart__input flex-1 text-center"
+                    class="caption-1 quantity__input btn-outline-none btn-border-none bg-main color-text cart__input btn-outline-none btn-border-none flex-1 text-center"
                     name="updates[]"
                     value="{{ item.quantity }}"
                   >
@@ -57,7 +57,7 @@
                   {%- render 'icon-delete' -%}
                 </a>
               </span>
-              <span class="cart__product-total text-right-lg body-1 color-text-default">
+              <span class="cart__product-total text-right-lg body-1 color-text cart__product-price d-flex-lg align-center justify-end">
                 {{- item.final_line_price | money_without_trailing_zeros -}}
               </span>
             </div>
@@ -89,7 +89,7 @@
     {%- endform -%}
   {%- else -%}
     <div class="text-center">
-      <h1 class="heading-0-sm heading-0-lg color-text-default text-center cart__empty">Your cart is empty</h1>
+      <h1 class="heading-0-sm heading-0-lg color-text text-center cart__empty">Your cart is empty</h1>
       <a href="{{ shop.url }}" class="btn">continue shopping</a>
     </div>
   {%- endif -%}
@@ -176,13 +176,6 @@
       "default": 40
     }
   ],
-  "blocks": [],
-  "presets": [
-    {
-      "name": "main-cart",
-      "settings": {},
-      "blocks": []
-    }
-  ]
+  "blocks": []
 }
 {% endschema %}

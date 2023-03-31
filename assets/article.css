@@ -1,0 +1,48 @@
+.article__container{
+    padding-top: 40px;
+}
+
+.article__date{
+    margin-top: 24px;
+}
+
+.article__media{
+    --gap-container: 0;
+}
+
+.article__share{
+    padding: 8px 0;
+    margin-top: 27px;
+}
+
+.article__icon-share{
+    margin-right: 8px;
+}
+
+.article__content{
+    margin-top: 40px;
+}
+
+.article__back{
+    padding: 8px 0;
+    margin-top: 64px;
+}
+
+.article__icon-arrow-left{
+    margin-right: 14px;
+}
+
+@media (min-width: 992px) {
+    .article__media{
+        --gap-container: 10px;
+    }
+
+    .article__container{
+        max-width: 700px;
+        padding-top: 64px;
+    }
+
+    .article__share{
+        margin-top: 40px;
+    }
+}

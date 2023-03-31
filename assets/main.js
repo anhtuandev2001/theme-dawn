@@ -6,6 +6,7 @@ function addToCart(productId, variantId) {
   xhr.onload = function() {
     if (xhr.status === 200) {
       // Update cart count
+      headerContainer.style.top = '0';
       updateCartItemCount();
       showSuccessToast();
     } else {

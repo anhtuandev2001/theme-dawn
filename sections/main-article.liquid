@@ -1,4 +1,4 @@
-{{ 'blog.css' | asset_url | stylesheet_tag }}
+{{ 'article.css' | asset_url | stylesheet_tag }}
 
 <div
   class="section bg-main {{ section.settings.color_scheme }}"
@@ -7,36 +7,35 @@
     --section-padding-bottom: {{ section.settings.bottom_padding }}px
   "
 >
-  <div class="container">
-    <div class="row blog__list">
-      {%- for article in blog.articles -%}
-        <div
-          class="col"
-          style=" --w-xs: 12; {% if forloop.first == true %} --w-lg: 12 {% else %} --w-lg: 6 {% endif %}"
-        >
-          <a href="{{ article.url }}" class="blog__item d-block">
-            {%- render 'component-img',
-              img_url: article.image,
-              class_img: 'w-100 blog__img',
-              enable_placeholder: true,
-              placehelder_name: 'life-1',
-              alt: 'image'
-            -%}
-            <div class="blog__content bg-bg-2 {% if forloop.first == true %} text-center blog__content-first {% endif %}">
-              <h2 class="blog__title color-text heading-2-sm heading-2-lg">{{ article.title }}</h2>
-              <span class="blog__date caption-1 color-text">{{ article.created_at | date: '%B %Y' }}</span>
-              <div class="blog__text color-text body-1">{{ article.excerpt }}</div>
-            </div>
-          </a>
-        </div>
-      {%- endfor -%}
-    </div>
+  <div class="container article__media">
+    {%- render 'component-img',
+      img_url: article.image,
+      class_img: 'w-100 article__img',
+      enable_placeholder: true,
+      placehelder_name: 'life-1',
+      alt: 'image'
+    -%}
+  </div>
+  <div class="article__container container">
+    <h2 class="article__title heading-1-sm heading-1-lg color-text">
+      Introducing the latest creation in our Pleated Collection
+    </h2>
+    <span class="article__date caption-1 d-block color-text">{{ article.created_at | date: '%B %Y' }}</span>
+    <span class="article__share d-flex align-center body-2 color-text">
+      {%- render 'icon-share', class: 'article__icon-share' -%}
+      Share</span
+    >
+    <div class="article__content body-1 color-text">{{ article.content }}</div>
+    <a href="{{ blog.url }}" class="justify-center text-center article__back body-2 d-flex align-center color-text">
+      {%- render 'icon-arrow-left', class: 'article__icon-arrow-left' -%}
+      Back to blog</a
+    >
   </div>
 </div>
 
 {% schema %}
 {
-  "name": "Blog",
+  "name": "Article",
   "tag": "section",
   "settings": [
     {

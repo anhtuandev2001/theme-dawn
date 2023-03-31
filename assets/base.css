@@ -1,23 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&display=swap");
 :root {
-  --color-bg-1: #ffffff;
-  --color-bg-2: #f0f0f0;
-  --color-accent-1: #000000;
-  --color-accent-2: #3752b2;
-  --color-grey-900: #4d4d4d;
-  --color-surface-default: #ffffff;
-
-  --color-border-dark: #7d7d7d;
-  --color-border-light: #d0d0d0;
-  
-  --color-text-default: #121212;
-  --color-text-subdued: rgba(18, 18, 18, 0.75);
-  --color-text-inverse: #ffffff;
-
-  --color-rgba-main: rgba(255 255 255 / .03);
-
-  --font-size-heading: 4rem;
-
+  --font-size-heading: calc((var(--size-heading)/100)*3rem);
   --section-padding-top: 40px;
   --section-padding-bottom: 40px;
 
@@ -86,6 +69,7 @@ ul {
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 /* heading */
@@ -148,6 +132,7 @@ h6 {
 .body-2,
 .caption-1,
 .text-btn,
+.text-micro,
 .body-text {
   font-weight: 400;
 }
@@ -168,6 +153,11 @@ h6 {
   font-size: 1.6rem;
   line-height: 1.7;
   letter-spacing: 0.04em;
+}
+
+.text-micro{
+  font-size: 1rem;
+  line-height: 1.3;
 }
 
 .body-2 {
@@ -330,6 +320,10 @@ h6 {
 
 .bg-btn{
   background-color: var(--bg-btn);
+}
+
+.btn-border-none{
+  border: none;
 }
 
 /* d-block */
@@ -574,6 +568,22 @@ h6 {
 
   .text-uppercase-lg {
     text-transform: uppercase;
+  }
+
+  .w-100-lg {
+    width: 100%;
+  }
+  
+  .w-50-lg {
+    width: 50%;
+  }
+  
+  .w-33-lg {
+    width: 33.333%;
+  }
+  
+  .h-100-lg {
+    height: 100%;
   }
 
   .body-text-lg {

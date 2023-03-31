@@ -32,7 +32,19 @@
 
 .quantity__input {
     max-width: 50px;
-    border: none;
     -moz-appearance: textfield;
-    outline: none;
+}
+
+.no-scroll{
+  overflow: hidden;
+}
+
+.modal{
+  top: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  background: rgb(0 0 0 / 50%);
+  z-index: 2;
+  height: 100vh;
 }

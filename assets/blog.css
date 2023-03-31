@@ -1,0 +1,26 @@
+.blog__content{
+    padding: 24px;
+}
+
+.blog__date{
+    margin-top: 4px;
+}
+
+.blog__text{
+    margin-top: 16px;
+}
+
+.blog__list{
+    row-gap: 10px;
+}
+
+@media (min-width: 992px) {
+    .blog__content-first{
+        padding-top: 16px;
+        padding-bottom: 40px;
+    }
+
+    .blog__text{
+        margin-top: 4px;
+    }
+}

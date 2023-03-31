@@ -22,7 +22,7 @@
       placehelder_name: 'collection-2'
     -%}
     <button class="play-btn btn accent-1 video__icon-play transform-center p-absolute">
-      {%- render 'icon-play' -%}
+      {%- render 'icon-play', class: 'color-text-default' -%}
     </button>
     <iframe
       class="video__frame w-100 h-100"
@@ -159,6 +159,9 @@
       "settings": {},
       "blocks": []
     }
-  ]
+  ],
+  "disabled_on": {
+    "groups": ["footer", "header"]
+  }
 }
 {% endschema %}

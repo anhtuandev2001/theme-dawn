@@ -1,0 +1,140 @@
+{{ 'contact.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="section bg-1"
+  style="
+    --section-padding-top: {{ section.settings.top_padding }}px;
+    --section-padding-bottom: {{ section.settings.bottom_padding }}px
+  "
+>
+  <div class="container contact__container">
+    <h1 class="contact__heading heading-1-sm heading-1-lg color-text">{{ page.title }}</h1>
+    <div class="contact__content body-1">{{ page.content }}</div>
+    {% form 'contact' %}
+      <div class="contact__form d-flex flex-d-column">
+        <div class="row contact__form-list">
+          <div class="col" style="--w-xs: 12; --w-lg: 6">
+            <div class="contact__form-item">
+              <label
+                class="contact__form-label flex-d-column d-flex h-100 justify-end text-btn color-text-subdued"
+                for="last-name"
+                >Name
+                <input
+                  class="contact__input btn-outline-none btn-border-none text-btn"
+                  type="text"
+                  name="contact[last_name]"
+                  id="last-name"
+                >
+              </label>
+            </div>
+          </div>
+          <div class="col" style="--w-xs: 12; --w-lg: 6">
+            <div class="contact__form-item">
+              <label
+                class="contact__form-label flex-d-column d-flex h-100 justify-end text-btn color-text-subdued"
+                for="email"
+                >Email
+                <input
+                  class="contact__input btn-outline-none btn-border-none text-btn"
+                  type="email"
+                  name="contact[email]"
+                  id="email"
+                >
+              </label>
+            </div>
+          </div>
+        </div>
+        {{ form.errors | default_errors }}
+
+        <div class="contact__form-item">
+          <label
+            class="contact__form-label flex-d-column d-flex h-100 justify-end text-btn color-text-subdued"
+            for="phone"
+            >Phone
+            <input
+              class="contact__input btn-outline-none btn-border-none text-btn"
+              type="tel"
+              name="contact[phone]"
+              id="phone"
+            >
+          </label>
+        </div>
+
+        <div class="contact__form-item contact__textarea">
+          <label
+            class="contact__form-label flex-d-column d-flex h-100 justify-end text-btn color-text-subdued"
+            for="message"
+            >Message
+            <textarea
+              class="contact__input btn-outline-none btn-border-none text-btn "
+              name="contact[body]"
+              id="message"
+              rows="5"
+            ></textarea>
+          </label>
+        </div>
+
+        <div class="contact__form-submit">
+          <input type="submit" class="btn" value="Send">
+        </div>
+      </div>
+    {% endform %}
+  </div>
+</div>
+
+<script>
+  const contactFormItems = document.querySelectorAll('.contact__form-item');
+
+  contactFormItems.forEach((contactFormItem) => {
+    const contactFormLabel = contactFormItem.querySelector('.contact__form-label');
+    const input = contactFormItem.querySelector('.contact__input');
+
+    input.addEventListener('focus', () => {
+      if (input.value.trim() === '') {
+        contactFormLabel.style.transform = 'translateY(-10px)';
+        contactFormItem.style.border = '2px solid var(--color-border-dark)';
+        contactFormLabel.style.fontSize = '1rem';
+      }
+    });
+
+    input.addEventListener('blur', () => {
+      if (input.value.trim() === '') {
+        contactFormItem.style.border = '1px solid var(--color-border-dark)';
+        contactFormLabel.style.transform = 'translateY(0)';
+        contactFormLabel.style.fontSize = '1.6rem';
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Contact",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "label": "Top padding",
+      "id": "top_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "label": "Bottom padding",
+      "id": "bottom_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    }
+  ],
+  "blocks": []
+}
+{% endschema %}

@@ -36,7 +36,7 @@
             </div>
           </div>
           <div class="slide-control d-none-lg {% if product.variants.size < 2 %} d-none {% endif %}justify-center d-flex align-center">
-            <button class="slide-control__btn js-slide-control-left bg-bg-1">
+            <button class="slide-control__btn btn-border-none btn-outline-none js-slide-control-left bg-bg-1">
               {%- render 'icon-vector-left', class: 'slide-control-icon' -%}
             </button>
             <span
@@ -44,7 +44,7 @@
               data-variants-size="{{ product.variants.size }}"
             >
             </span>
-            <button class="slide-control__btn js-slide-control-right bg-bg-1">
+            <button class="slide-control__btn btn-border-none btn-outline-none js-slide-control-right bg-bg-1">
               {%- render 'icon-vector-right', class: 'slide-control-icon' -%}
             </button>
           </div>
@@ -126,7 +126,7 @@
               {% render 'icon-minus', class: 'quantity__icon product-minus' %}
               <input
                 type="number"
-                class="quantity__input caption-1 flex-1 text-center"
+                class="quantity__input btn-outline-none btn-border-none caption-1 flex-1 text-center"
                 name="quantity"
                 value="1"
                 min="1"

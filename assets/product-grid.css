@@ -5,3 +5,173 @@
 .product-grid__btn{
     margin-top: 30px;
 }
+
+.collection-filter__form{
+    gap: 24px;
+}
+
+.collection-icon-sort{
+    margin-right: 8px;
+}
+
+.paginate{
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.current, .page, .next, .prev{
+    color: var(--color-text-default);
+    font-size: 2rem ;
+}
+
+
+.collection-filter__group-display{
+    z-index: 5;
+    padding: 16px 0;
+    width: 300px;   
+    border: 1px solid var(--color-border-light);
+}
+
+.collection-filter-group-display__header{
+    padding-bottom: 16px;
+    padding: 0 16px 16px;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.collection-filter-group-display__list{
+    margin-top: 8px;
+    row-gap: 17px;
+    padding: 0 16px;
+}
+
+.filter-group-display__input{
+    height: 16px;
+    width: 16px;
+    margin: 2px;
+    margin-right: 6px;
+}
+
+.filter-group-display__list-label{
+    display: flex;
+    align-items: center;
+}
+
+.filter-group-display__submit{
+    margin: 17px 17px 0px;
+}
+
+.filter-group-display__price-range-from-input{
+    width: 111px;
+    padding: 15px 0 17px 16px;
+    border: 1px solid var(--color-border-dark);
+}
+
+.filter-group-display__price-range{
+    gap: 32px;
+    margin-top: 16px;
+}
+
+.collection-sort__select{
+    width: 97px;
+}
+
+.collection-icon-vector-down{
+    margin-left: 8px;
+}
+
+.collection-sort__container{
+    gap: 24px;
+}
+
+.collection__bar{
+    margin-bottom: 32px;    
+}
+
+
+@media (max-width: 992px) {
+    .collection__bar-container{
+    top: 0;
+    width: 336px;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    transform: translateX(100%);
+    transition: transform ease .4s;
+    }
+
+    .collection-filter__group-display{
+        position: absolute;
+        top: 0px;
+        height: 100%;
+        z-index: 18;
+        width: 336px;
+        padding-top: 0;
+        right: 0;
+        transition: transform ease .4s;
+    }
+
+    .collection-filter-group-display__list{
+        padding: 0 32px;
+        row-gap: 23px;
+    }
+
+    .collection-sort-modal{
+        z-index: 9;
+    }
+
+    .collection__bar-container--active{
+        transform: translateX(0);
+        }
+
+    .collection__bar-heading-md{
+        padding-top: 5px;
+        padding-bottom: 12px;
+        row-gap: 4px;
+        border-bottom: 1px solid var(--color-border-light);
+    }
+
+    .collection-filter-group-display__header{
+        border: none
+    }
+
+    .collection__bar-heading-icon-close{
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .collection-filter__form{
+        padding: 64px 32px 0;
+    }
+
+    .filter-group{
+        padding: 6px 0;
+    }
+
+    .collection-sort__container{
+        padding: 6px 32px;
+        margin-top: 10px;
+    }
+
+    .collection-filter__group-display-label{
+        padding: 10px 0;
+        gap: 8px;
+        margin: 14px 32px 24px;
+    }
+
+    .collection-bar__item{
+        padding: 16px 24px;
+        gap: 24px;
+    }
+
+    .filter-group-display__submit{
+        margin: 32px;
+    }
+
+    .collection-bar__item-btn-apply{
+        padding: 16px 47px;
+    }
+    .collection-bar__item-btn-clear{
+        padding: 8px 41px;
+    }
+}

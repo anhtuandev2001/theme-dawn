@@ -1,5 +1,9 @@
 {{ 'product-grid.css' | asset_url | stylesheet_tag }}
 
+{%- assign quantityProduct = section.settings.max_product -%}
+
+{% assign max_price = max_price | divided_by: collection.products.size %}
+
 <div
   class="section bg-1"
   style="
@@ -8,33 +12,326 @@
   "
 >
   <div class="container">
-    <div class="row product-grid__list">
-      {%- for product in collection.products limit: section.settings.max_product -%}
+    {% paginate collection.products by quantityProduct %}
+      {% for product in collection.products %}
+        {% assign max_price = product.price | plus: max_price %}
+      {% endfor %}
+      <div class="collection__bar">
+        <span class="collection__filter-sort d-none-lg d-flex align-center body-2 cursor-pointer">
+          {% render 'icon-sort', class: 'collection-icon-sort' %}
+          Filter and sort</span
+        >
         <div
-          class="col"
-          style="--w-lg: {{ 12.0 | divided_by: section.settings.columns_lg }}; {% if section.settings.colmn_xs == "one-column" %} --w-xs: 12 {% else %} --w-xs: 6 {% endif %}"
+          class="collection__bar-container bg-bg-1 p-absolute-md d-flex justify-between-md flex-d-column"
         >
-          {%- render 'component-card',
-            product: product,
-            image_ratio: section.settings.image_ratio,
-            second_img_hover: section.settings.second_img_hover,
-            add_button: section.settings.add_button,
-            card_color: 'color-text'
-          -%}
+          <div class=" flex-d-column-md d-flex justify-between-lg align-center">
+            <div class="collection__bar-heading-md d-none-lg d-flex flex-d-column p-relative text-center w-100">
+              <span class="body-2 color-text">Filter and sort</span>
+              <span class="text-micro color-text">{{ collection.products.size }} products</span>
+              {%- render 'icon-close', class: 'collection__bar-heading-icon-close cursor-pointer p-absolute' -%}
+            </div>
+            <form class="filter-form collection-filter__form w-100-md d-flex align-center-lg flex-d-column-md">
+              <span class="collection-filter body-2 color-text d-none d-block-lg">Filter:</span>
+              {%- for filter in collection.filters -%}
+                <details class="filter-group body-2 color-text cursor-pointer" id="myDetails">
+                  <summary class="filter-group-summary d-flex p-relative d-flex align-center">
+                    <div>
+                      <span>{{ filter.label }}</span>
+
+                      {%- if filter.active_values.size > 0 -%}
+                        <span>({{ filter.active_values.size }})</span>
+                      {%- endif -%}
+                    </div>
+                    {%- render 'icon-vector-down', class: 'collection-icon-vector-down' -%}
+                  </summary>
+
+                  <div class="filter-group-display collection-filter__group-display bg-bg-1 p-absolute">
+                    <div class="collection__bar-heading-md d-none-lg d-flex flex-d-column p-relative text-center w-100">
+                      <span class="body-2 color-text">Filter and sort</span>
+                      <span class="text-micro color-text">{{ collection.products.size }} products</span>
+                    </div>
+                    <div class="d-flex align-center collection-filter__group-display-label d-none-lg">
+                      {%- render 'icon-arrow-left' -%}
+                      <span>{{ filter.label }}</span>
+                    </div>
+                    {%- case filter.type -%}
+                      {%- when 'boolean', 'list' -%}
+                        <div class="filter-group-display__header body-2 collection-filter-group-display__header d-flex-lg justify-between d-none">
+                          <span class="filter-group-display__header-selected ">
+                            {{- filter.active_values.size }} selected</span
+                          >
+
+                          {%- if filter.active_values.size > 0 -%}
+                            <a
+                              href="{{ filter.url_to_remove }}"
+                              class="filter-group-display__header-reset body-2 text-underline color-text"
+                              >Reset</a
+                            >
+                          {%- endif -%}
+                        </div>
+                        <ul class="filter-group-display__list d-flex flex-d-column list-style-none collection-filter-group-display__list">
+                          {%- for filter_value in filter.values -%}
+                            <li class="filter-group-display__list-item">
+                              <label
+                                for="Filter-{{ filter.param_name }}-{{ forloop.index }}"
+                                class="d-flex align-center cursor-pointer"
+                              >
+                                <input
+                                  type="checkbox"
+                                  name="{{ filter_value.param_name }}"
+                                  class="filter-group-display__input mg-0"
+                                  value="{{ filter_value.value }}"
+                                  id="Filter-{{ filter.param_name }}-{{ forloop.index }}"
+                                  {% if filter_value.active -%}
+                                    checked
+                                  {%- endif %}
+                                  {% if filter_value.count == 0 and filter_value.active == false -%}
+                                    disabled
+                                  {%- endif %}
+                                >
+                                {{- filter_value.label -}}
+                              </label>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+
+                        <div class="filter-group-display__submit ">
+                          <input type="submit" value="Apply" class="btn-border-none btn btn-outline-none">
+                        </div>
+                      {%- when 'price_range' -%}
+                        <div class="filter-group-display__header body-2 collection-filter-group-display__header d-flex justify-between">
+                          <span class="filter-group-display__header-selected">
+                            {{- filter.active_values.size }} The highest price is
+                            {{ max_price | money_without_trailing_zeros -}}
+                          </span>
+
+                          <a
+                            href="{{ filter.url_to_remove }}"
+                            class="filter-group-display__header-reset color-text text-underline"
+                            >Reset</a
+                          >
+                        </div>
+                        <div class="filter-group-display__price-range d-flex justify-center">
+                          <div class="filter-group-display__price-range-from">
+                            {% comment %} <span>{{ cart.currency.symbol }}</span> {% endcomment %}
+
+                            <input
+                              name="{{ filter.min_value.param_name }}"
+                              id="Filter-{{ filter.min_value.param_name }}"
+                              {% if filter.min_value.value -%}
+                                value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                              {%- endif %}
+                              type="number"
+                              class="filter-group-display__price-range-from-input text-btn"
+                              placeholder="From"
+                              min="0"
+                              max="{{ max_price }}"
+                            >
+                          </div>
+                          <div class="filter-group-display__price-range-to">
+                            {% comment %} <span>{{ cart.currency.symbol }}</span> {% endcomment %}
+
+                            <input
+                              name="{{ filter.max_value.param_name }}"
+                              id="Filter-{{ filter.max_value.param_name }}"
+                              {% if filter.max_value.value -%}
+                                value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                              {%- endif %}
+                              type="number"
+                              class="filter-group-display__price-range-from-input text-btn"
+                              placeholder="To"
+                              min="0"
+                              max="{{ max_price }}"
+                            >
+                          </div>
+                        </div>
+
+                        <div class="filter-group-display__submit ">
+                          <input type="submit" value="Apply" class="btn-border-none btn btn-outline-none">
+                        </div>
+                    {%- endcase -%}
+                  </div>
+                </details>
+              {%- endfor -%}
+
+              <div class="active-filters d-none d-block-lg">
+                <a
+                  href="{{ collection.url }}?sort_by={{ collection.sort_by }}"
+                  class="active-filters__clear body-2 color-text"
+                  >Clear all</a
+                >
+
+                {%- for filter in collection.filters -%}
+                  {%- if filter.type == 'price_range' -%}
+                    {%- if filter.min_value.value != null or filter.max_value.value != null -%}
+                      <a class="active-filters__remove-filter body-2 color-text" href="{{ filter.url_to_remove }}">
+                        {%- assign min_value = filter.min_value.value | default: 0 -%}
+                        {%- assign max_value = filter.max_value.value | default: filter.range_max -%}
+                        {{ min_value | money }} - {{ max_value | money }} X
+                      </a>
+                    {%- endif -%}
+                  {%- else -%}
+                    {%- for filter_value in filter.active_values -%}
+                      <a
+                        class="active-filters__remove-filter body-2 color-text"
+                        href="{{ filter_value.url_to_remove }}"
+                      >
+                        {{ filter.label }}: {{ filter_value.label }} X
+                      </a>
+                    {%- endfor -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </form>
+
+            <div class="collection-sort__container d-flex align-center-lg w-100-md justify-between">
+              <span class="collection-sort__title body-2 color-text">Sort by:</span>
+              <select
+                id="sort-by"
+                class="btn-outline-none btn-border-none collection-sort__select color-text cursor-pointer"
+              >
+                {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+
+                {% for option in collection.sort_options %}
+                  <option
+                    value="{{ option.value }}"
+                    {% if option.value == sort_by %}
+                      selected="selected"
+                    {% endif %}
+                  >
+                    {{ option.name }}
+                  </option>
+                {% endfor %}
+              </select>
+              <span class="body-2 color-text d-none d-block-lg">{{ collection.products.size }} products</span>
+            </div>
+          </div>
+          <div class="collection-bar__item d-flex d-none-lg align-center justify-center">
+            <div class="active-filters collection-bar__item-btn-clear">
+              <a
+                href="{{ collection.url }}?sort_by={{ collection.sort_by }}"
+                class="active-filters__clear body-2 text-underline color-text"
+                >Clear all</a
+              >
+            </div>
+          </div>
         </div>
-      {%- endfor -%}
-    </div>
-    {%- if section.settings.enable_view_all != blank -%}
-      <div class="text-center">
-        <a
-          href="{{ section.settings.collection.url }}"
-          class="product-grid__btn text-btn d-inline-block color-text {{ section.settings.view_all_style }}"
-          >View all</a
-        >
       </div>
-    {%- endif -%}
+      <div class="row product-grid__list">
+        {%- for product in collection.products -%}
+          <div
+            class="col"
+            style="--w-lg: {{ 12.0 | divided_by: section.settings.columns_lg }}; {% if section.settings.colmn_xs == "one-column" %} --w-xs: 12 {% else %} --w-xs: 6 {% endif %}"
+          >
+            {%- render 'component-card',
+              product: product,
+              image_ratio: section.settings.image_ratio,
+              second_img_hover: section.settings.second_img_hover,
+              add_button: section.settings.add_button,
+              card_color: 'color-text'
+            -%}
+          </div>
+        {%- endfor -%}
+      </div>
+      {%- if section.settings.enable_view_all != blank -%}
+        <div class="text-center">
+          <a
+            href="{{ section.settings.collection.url }}"
+            class="product-grid__btn text-btn d-inline-block color-text {{ section.settings.view_all_style }}"
+            >View all</a
+          >
+        </div>
+      {%- endif -%}
+      <div class="paginate flex-center">{{ paginate | default_pagination }}</div>
+    {% endpaginate %}
   </div>
+  {% render 'component-modal', class: 'collection-sort-modal' %}
 </div>
+<script>
+  Shopify.queryParams = {};
+
+  // Preserve existing query parameters
+  if (location.search.length) {
+    var params = location.search.substr(1).split('&');
+
+    for (var i = 0; i < params.length; i++) {
+      var keyValue = params[i].split('=');
+
+      if (keyValue.length) {
+        Shopify.queryParams[decodeURIComponent(keyValue[0])] = decodeURIComponent(keyValue[1]);
+      }
+    }
+  }
+
+  // Update sort_by query parameter on select change
+  document.querySelector('#sort-by').addEventListener('change', function (e) {
+    var value = e.target.value;
+
+    Shopify.queryParams.sort_by = value;
+    location.search = new URLSearchParams(Shopify.queryParams).toString();
+  });
+
+  const collectionFilterSort = document.querySelector('.collection__filter-sort');
+  const collectionBarContainer = document.querySelector('.collection__bar-container');
+  const collectionBarHeadingIconClose = document.querySelector('.collection__bar-heading-icon-close');
+  const collectionSortModal = document.querySelector('.collection-sort-modal');
+
+  collectionFilterSort.addEventListener('click', () => {
+    openMenuSort();
+  });
+
+  collectionBarHeadingIconClose.addEventListener('click', () => {
+    closeMenuSort();
+  });
+  collectionSortModal.addEventListener('click', () => {
+    closeMenuSort();
+  });
+
+  const openMenuSort = () => {
+    collectionSortModal.classList.remove('d-none');
+    collectionBarContainer.classList.add('collection__bar-container--active');
+  };
+
+  const closeMenuSort = () => {
+    collectionSortModal.classList.add('d-none');
+    collectionBarContainer.classList.remove('collection__bar-container--active');
+  };
+  // JavaScript code
+  const detailsList = document.querySelectorAll('details');
+
+  detailsList.forEach((details) => {
+    details.addEventListener('click', (event) => {
+      // close other open details elements
+      detailsList.forEach((otherDetails) => {
+        if (otherDetails !== details && otherDetails.hasAttribute('open')) {
+          otherDetails.removeAttribute('open');
+        }
+      });
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+
+    // check if the clicked element is not a details element or not inside an open details element
+    if (!target.closest('details') || !target.closest('details').hasAttribute('open')) {
+      detailsList.forEach((details) => {
+        if (details.hasAttribute('open')) {
+          details.removeAttribute('open');
+        }
+      });
+    }
+  });
+
+  const collectionFilterGroupDisplayLabels = document.querySelectorAll('.collection-filter__group-display-label');
+  collectionFilterGroupDisplayLabels.forEach((collectionFilterGroupDisplayLabe) => {
+    collectionFilterGroupDisplayLabe.addEventListener('click', () => {
+      detailsList.forEach((detail) => {
+        detail.removeAttribute('open');
+      });
+    });
+  });
+</script>
 
 {% schema %}
 {
@@ -144,6 +441,9 @@
       "default": 40
     }
   ],
-  "blocks": []
+  "blocks": [],
+  "disabled_on": {
+    "groups": ["footer", "header"]
+  }
 }
 {% endschema %}
