@@ -144,7 +144,7 @@ productPlus.onclick = function () {
 // ----------------------------
 // add to cart
 const addToCartBtn = $(".product-add-to-cart");
-addToCartBtn.addEventListener("click", function () {
+addToCartBtn.addEventListener("click",  ()=> {
   if (CheckSoldOut == false) {
     const variantId = $(
       ".product__variant-title.product__variant-title--active"
@@ -171,7 +171,7 @@ addToCartBtn.addEventListener("click", function () {
 
 // buy now
 const buyNow = $(".btn-buy-now");
-buyNow.addEventListener("click", function () {
+buyNow.addEventListener("click",  ()=> {
   if (CheckSoldOut == false) {
     const variantId = $(
       ".product__variant-title.product__variant-title--active"
