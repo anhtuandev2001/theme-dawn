@@ -728,7 +728,7 @@ h6 {
 }
 
 .inverse{
-  --bg-main: var(--color-inverse);
+  --bg-main: var(--color-text-inverse);
   --color-text: var(--color-text-default);
 
   --bg-btn: var(--color-accent-1);
