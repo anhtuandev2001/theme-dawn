@@ -18,6 +18,9 @@
           <div class=" multi-column__item h-100 d-flex flex-d-column {{ section.settings.text_align }}">
             {%- if block.settings.image != blank -%}
               <img
+                width="{{ image.width }}"
+                height="{{ image.height }}"
+                loading="lazy"
                 src="{{ block.settings.image | img_url: '2000x' }}"
                 class="multi-column__item-media object-cover {{ section.settings.image_width }} {{ section.settings.image_ratio }}"
               >
@@ -47,7 +50,7 @@
   </div>
 </div>
 
-<script src="{{ 'multi-column.js' | asset_url }}"></script>
+<script src="{{ 'multi-column.js' | asset_url }}" defer></script>
 
 {% schema %}
 {

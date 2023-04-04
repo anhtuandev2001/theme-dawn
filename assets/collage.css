@@ -54,7 +54,7 @@
 }
 
 @media (min-width: 992px) {
-    .collage-left-lagre{
+    .collage-left-large{
         grid-template-columns: 7fr 5fr;
         grid-template-areas:
         "img card"
@@ -62,7 +62,7 @@
         gap: 10px;
     }
 
-    .collage-right-lagre{
+    .collage-right-large{
         grid-template-columns: 5fr 7fr;
         grid-template-areas:
         "card img"
