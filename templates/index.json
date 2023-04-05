@@ -1,22 +1,29 @@
 {
   "sections": {
-    "image-banner":{
-      "type": "image-banner"
-    },
-    "rich-text":{
-      "type": "rich-text",
-      "blocks": {
-
+    "image-banner": {
+      "type": "image-banner",
+      "settings": {
       }
     },
-    "featured-collection":{
-      "type": "featured-collection"
-    }, 
-    "collage":{
-      "type": "collage"
+    "rich-text": {
+      "type": "rich-text",
+      "settings": {
+      }
     },
-    "multi-column":{
-      "type": "multi-column"
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+      }
+    },
+    "collage": {
+      "type": "collage",
+      "settings": {
+      }
+    },
+    "multi-column": {
+      "type": "multi-column",
+      "settings": {
+      }
     }
   },
   "order": [
