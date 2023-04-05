@@ -2,9 +2,25 @@
   "sections": {
     "image-banner":{
       "type": "image-banner"
+    },
+    "rich-text":{
+      "type": "rich-text"
+    },
+    "featured-collection":{
+      "type": "featured-collection"
+    }, 
+    "collage":{
+      "type": "collage"
+    },
+    "multi-column":{
+      "type": "multi-column"
     }
   },
   "order": [
-    "image-banner"
+    "image-banner",
+    "rich-text",
+    "featured-collection",
+    "collage",
+    "multi-column"
   ]
 }
