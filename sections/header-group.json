@@ -10,7 +10,7 @@
           "settings": {
             "text": "Free shipping available on all orders!",
             "text_align": "text-center",
-            "color_scheme": "bg-1"
+            "color_scheme": "accent-1"
           }
         }
       },
@@ -24,6 +24,7 @@
       "type": "header",
       "settings": {
         "color_scheme": "bg-1",
+        "image": "shopify:\/\/shop_images\/logo.png",
         "menu": "main-menu",
         "logo-position": "header-logo-middle-left",
         "top_padding": 18,
