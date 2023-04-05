@@ -1,16 +1,39 @@
 {
-    "name": "header",
-    "type": "header",
-    "sections": {
-      "announcement-bar":{
-        "type": "announcement-bar"
+  "name": "header",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "0123da8c-15f2-45af-a17a-ab7ede1e3066": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free shipping available on all orders!",
+            "text_align": "text-center",
+            "color_scheme": "accent-1"
+          }
+        }
       },
-      "header":{
-        "type": "header"
+      "block_order": [
+        "0123da8c-15f2-45af-a17a-ab7ede1e3066"
+      ],
+      "settings": {
       }
     },
-    "order": [
-      "announcement-bar",
-      "header"
-    ]
-  }
+    "header": {
+      "type": "header",
+      "settings": {
+        "color_scheme": "bg-1",
+        "image": "shopify:\/\/shop_images\/logo.png",
+        "menu": "main-menu",
+        "logo-position": "header-logo-middle-left",
+        "top_padding": 18,
+        "bottom_padding": 18
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}
