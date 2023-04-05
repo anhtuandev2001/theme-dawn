@@ -42,9 +42,9 @@
             <h2 class="image-banner__heading image-banner__content--gap color-text {{ block.settings.Heading_font_size }}">
               {{- block.settings.heading -}}
             </h2>
-          {%- when 'decription' -%}
-            <p class="image-banner__decription body-1 color-text image-banner__content--gap">
-              {{- block.settings.decription -}}
+          {%- when 'description' -%}
+            <p class="image-banner__description body-1 color-text image-banner__content--gap">
+              {{- block.settings.description -}}
             </p>
           {%- when 'button' -%}
             {%- if block.settings.first_btn != blank -%}
@@ -281,14 +281,14 @@
       ]
     },
     {
-      "type": "decription",
-      "name": "Decription",
+      "type": "description",
+      "name": "description",
       "settings": [
         {
           "type": "text",
-          "id": "decription",
+          "id": "description",
           "default": "Atypical leather goods",
-          "label": "decription"
+          "label": "description"
         }
       ]
     },
@@ -343,7 +343,7 @@
           "type": "heading"
         },
         {
-          "type": "decription"
+          "type": "description"
         },
         {
           "type": "button"

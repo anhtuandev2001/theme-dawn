@@ -1,10 +1,29 @@
 {
   "sections": {
     "image-banner":{
-      "type": "image-banner"
+      "type": "image-banner",
+      "blocks": {
+        "heading":{
+          "type": "heading"
+        },
+        "description":{
+          "type": "description"
+        },
+        "button":{
+          "type": "button"
+        }
+      },
+      "block_order": [
+        "heading",
+        "description",
+        "button"
+      ]
     },
     "rich-text":{
-      "type": "rich-text"
+      "type": "rich-text",
+      "blocks": {
+
+      }
     },
     "featured-collection":{
       "type": "featured-collection"

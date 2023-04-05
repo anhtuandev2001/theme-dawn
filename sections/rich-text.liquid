@@ -14,9 +14,9 @@
           <h2 class="rich-text__heading color-text {{ block.settings.heading_font_size }}">
             {{ block.settings.heading }}
           </h2>
-        {% when 'decription' %}
+        {% when 'description' %}
           <div class="rich-text__description word-break-break-word color-text body-1">
-            {{ block.settings.decription }}
+            {{ block.settings.description }}
           </div>
         {% when 'button' %}
           {% if block.settings.link_text != blank %}
@@ -130,13 +130,13 @@
       ]
     },
     {
-      "name": "Decription",
-      "type": "decription",
+      "name": "description",
+      "type": "description",
       "settings": [
         {
           "type": "richtext",
-          "id": "decription",
-          "label": "decription"
+          "id": "description",
+          "label": "description"
         }
       ]
     },
@@ -173,7 +173,7 @@
           "type": "heading"
         },
         {
-          "type": "decription"
+          "type": "description"
         },
         {
           "type": "button"
