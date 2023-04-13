@@ -10,8 +10,16 @@
     grid-area: collection;
 }
 
+.collage__img{
+    aspect-ratio: 1.5;
+}
+
 .collage__collection:hover .collage__collection-img{
   transform: scale(1.05);
+}
+
+.collage__img{
+    height: 350px;
 }
 
 .collage__collection-media{

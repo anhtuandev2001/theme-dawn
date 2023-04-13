@@ -1,0 +1,332 @@
+{{ 'image-with-text.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="{{ section.settings.color_scheme }} section"
+  style="
+    --section-padding-top: {{ section.settings.top_padding }}px;
+    --section-padding-bottom: {{ section.settings.bottom_padding }}px
+  "
+>
+  <div class="containe {{ section.settings.image_width }} {{ section.settings.image_height }}">
+    <div class="row image-width-text-list {% if section.settings.image_placement == "image second" %} flex-d-row-lg reverse {% endif %}">
+      <div class="col" style="--w-xs: 12; --w-lg: var(--w-img)">
+        {%- render 'component-img',
+          img_url: section.settings.image,
+          class_img: 'height-img image-with-text w-100',
+          enable_placeholder: true,
+          placehelder_name: 'image',
+          alt: 'image'
+        -%}
+      </div>
+
+      <div
+        class="col d-flex bg-main {{ section.settings.content_position_lg }} align-item-lg"
+        style="--w-xs: 12;--w-lg: var(--w-content)"
+      >
+        <div class="image-with-text__content {{ section.settings.content_alignment_xs }} {{ section.settings.content_alignment_lg }} d-flex flex-d-column ">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'heading' %}
+                <h2 class="image-with-text__heading color-text {{ block.settings.heading_font_size }}">
+                  {{ block.settings.heading }}
+                </h2>
+              {% when 'description' %}
+                <div class="image-with-text__description word-break-break-word color-text body-1">
+                  {{ block.settings.description }}
+                </div>
+              {% when 'button' %}
+                {% if block.settings.link_text != blank %}
+                  <div class="">
+                    <a
+                      href="{{ block.settings.link }}"
+                      class="image-with-text__btn d-inline-block {% if block.settings.link == blank %} btn--disable {% endif %} {% if block.settings.outline_button == true %} btn--no-bg {% endif %} btn"
+                    >
+                      {{- block.settings.link_text -}}
+                    </a>
+                  </div>
+                {% endif %}
+            {% endcase %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image with text",
+  "tag": "section",
+  "class": "image-with-text",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_height",
+      "label": "Image height",
+      "default": "height-medium-img",
+      "options": [
+        {
+          "value": "height-adapt-img",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "height-small-img",
+          "label": "Small"
+        },
+        {
+          "value": "height-medium-img",
+          "label": "Medium"
+        },
+        {
+          "value": "height-large-img",
+          "label": "Large"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_width",
+      "label": "Desktop image width",
+      "default": "img-width-md",
+      "options": [
+        {
+          "value": "img-width-sm",
+          "label": "Small"
+        },
+        {
+          "value": "img-width-md",
+          "label": "Medium"
+        },
+        {
+          "value": "img-width-lg",
+          "label": "Large"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_placement",
+      "label": "Desktop image placement",
+      "default": "image first",
+      "options": [
+        {
+          "value": "image first",
+          "label": "Image first"
+        },
+        {
+          "value": "image second",
+          "label": "Image second"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "content_position_lg",
+      "label": "Desktop content position",
+      "default": "align-item-start",
+      "options": [
+        {
+          "value": "align-item-start",
+          "label": "Top"
+        },
+        {
+          "value": "align-item-center",
+          "label": "Middle"
+        },
+        {
+          "value": "align-item-end",
+          "label": "Bottom"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "content_alignment_lg",
+      "label": "Desktop content alignment",
+      "default": "text-center-lg",
+      "options": [
+        {
+          "value": "text-left-lg",
+          "label": "Left"
+        },
+        {
+          "value": "text-center-lg",
+          "label": "Center"
+        },
+        {
+          "value": "text-right-lg",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "accent 2"
+        },
+        {
+          "value": "bg-1",
+          "label": "background 1"
+        },
+        {
+          "value": "bg-2",
+          "label": "background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "inverse"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "MOBILE LAYOUT"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment_xs",
+      "label": "Mobile content alignment",
+      "default": "text-center-md",
+      "options": [
+        {
+          "value": "text-left-md",
+          "label": "Left"
+        },
+        {
+          "value": "text-center-md",
+          "label": "Center"
+        },
+        {
+          "value": "text-right-md",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "label": "Top padding",
+      "id": "top_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "label": "Bottom padding",
+      "id": "bottom_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    }
+  ],
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "name": "Heading",
+      "type": "heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Talk about your brand",
+          "label": "heading"
+        },
+        {
+          "type": "select",
+          "id": "heading_font_size",
+          "label": "Heading font size",
+          "options": [
+            {
+              "value": "heading-2-lg heading-2-sm",
+              "label": "Small"
+            },
+            {
+              "value": "heading-1-lg heading-1-sm",
+              "label": "Medium"
+            },
+            {
+              "value": "heading-0-lg heading-0-sm",
+              "label": "large"
+            }
+          ],
+          "default": "heading-0-lg heading-0-sm"
+        }
+      ]
+    },
+    {
+      "name": "description",
+      "type": "description",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "description"
+        }
+      ]
+    },
+    {
+      "name": "Button",
+      "type": "button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "link_text",
+          "default": "Button lable",
+          "label": "Button lable"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button label"
+        },
+        {
+          "type": "checkbox",
+          "id": "outline_button",
+          "label": "Use outline button style",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image with text",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "description"
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["footer", "header"]
+  }
+}
+{% endschema %}

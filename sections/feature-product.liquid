@@ -1,0 +1,227 @@
+{{ 'product.css' | asset_url | stylesheet_tag }}
+
+{%- assign product = section.settings.product -%}
+
+<div
+  class="section {{ section.settings.color_scheme }} bg-main"
+
+  style="
+    --section-padding-top: {{ section.settings.top_padding }}px;
+    --section-padding-bottom: {{ section.settings.bottom_padding }}px
+  "
+>
+  <div class="container">
+    <div class="row product__list">
+      <div class="col" style="--w-xs: 12; --w-md: 8">
+        <div class="product__item overflow-hidden">
+          <div class="product__media-container">
+            <div class="product__media d-flex">
+              {%- if product.variants.size > 1 -%}
+                {%- for variant in product.variants -%}
+                  {%- render 'component-img',
+                    img_url: variant.featured_image,
+                    class_img: 'product__img w-100',
+                    enable_placeholder: true,
+                    placehelder_name: 'product-1',
+                    alt: 'image'
+                  -%}
+                {%- endfor -%}
+              {%- else -%}
+                {%- render 'component-img',
+                  img_url: product.featured_image,
+                  class_img: 'w-100 product__img',
+                  enable_placeholder: true,
+                  placehelder_name: 'product-1',
+                  alt: 'image'
+                -%}
+              {%- endif -%}
+            </div>
+          </div>
+          <div class="slide-control d-none-lg {% if product.variants.size < 2 %} d-none {% endif %}justify-center d-flex align-center">
+            <button class="slide-control__btn btn-border-none btn-outline-none js-slide-control-left bg-bg-1">
+              {%- render 'icon-vector-left', class: 'slide-control-icon' -%}
+            </button>
+            <span
+              class="caption-1 slide-control__count  color-border-dark"
+              data-variants-size="{{ product.variants.size }}"
+            >
+            </span>
+            <button class="slide-control__btn btn-border-none btn-outline-none js-slide-control-right bg-bg-1">
+              {%- render 'icon-vector-right', class: 'slide-control-icon' -%}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col" style="--w-xs: 12; --w-md: 4">
+        <div class="product__item d-flex flex-d-column">
+          <span class="product__title heading-1-sm heading-1-lg color-text">{{ product.title }}</span>
+          <div class="product__price">
+            {%- if product.variants.size > 1 -%}
+              {%- for variant in product.variants -%}
+                <div class="product__price-container d-none {% if variant.available == false %} product__price--soldout {% endif %} {% if forloop.first == true %} product__price-container--active {% endif %}">
+                  {%- if variant.price != variant.compare_at_price and variant.compare_at_price != blank -%}
+                    <span class="card__sale d-inline-block-lg heading-3-sm color-text">
+                      {{ variant.price | money_without_trailing_zeros }} CAD
+                    </span>
+                    <span class="card__original d-inline-block-lg body-2 color-text">
+                      {{ variant.compare_at_price | money_without_trailing_zeros }} CAD
+                    </span>
+                    {%- if variant.available == true -%}
+                      {%- render 'componet-product-status', type: 'sale', class: 'icon-product-status' -%}
+                    {%- endif -%}
+                  {%- else -%}
+                    <span class="card__current d-inline-block-lg body-2 color-text">
+                      {{ variant.price | money_without_trailing_zeros }} CAD
+                    </span>
+                  {%- endif -%}
+                  {%- if variant.available == false -%}
+                    {%- render 'componet-product-status', type: 'sold out', class: 'icon-product-status' -%}
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            {%- else -%}
+              <div class="product__price-container product__price-container--active {% if product.available == false %} product__price--soldout {% endif %}">
+                {%- if product.price != product.compare_at_price and product.compare_at_price != blank -%}
+                  <span class="card__sale d-inline-block-lg heading-3-sm color-text">
+                    {{ product.price | money_without_trailing_zeros }} CAD
+                  </span>
+                  <span class="card__original d-inline-block-lg body-2 color-text">
+                    {{ product.compare_at_price | money_without_trailing_zeros }} CAD
+                  </span>
+                  {%- if product.available == true -%}
+                    {%- render 'componet-product-status', type: 'sale', class: 'icon-product-status' -%}
+                  {%- endif -%}
+                {%- else -%}
+                  <span class="card__current d-inline-block-lg heading-3-sm color-text">
+                    {{ product.price | money_without_trailing_zeros }} CAD
+                  </span>
+                {%- endif -%}
+                {%- if product.available == false -%}
+                  {%- render 'componet-product-status', type: 'sold out', class: 'icon-product-status' -%}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+          {%- if product.variants.size > 1 -%}
+            <div class="product__variant  d-flex flex-d-column">
+              <span class="product__variant-name caption-1 color-text">Color</span>
+              <div class="product__variant-list d-flex">
+                {% for variant in product.variants %}
+                  <span
+                    class="product__variant-title js-product__variant-title user-select-none {% if forloop.first == true %} color-text product__variant-title--active {% endif %} caption-1"
+                    data-variant-id="{{ variant.id }}"
+                  >
+                    {{- variant.title -}}
+                  </span>
+                {% endfor %}
+              </div>
+            </div>
+          {%- else -%}
+            <span
+              class="product__variant-title js-product__variant-title d-none product__variant-title--active"
+              data-variant-id="{{ product.first_available_variant.id }}"
+            ></span>
+          {%- endif -%}
+          <div class="product__quantity d-flex flex-d-column">
+            <span class="caption-1 color-text">Quantity</span>
+            <span class="quantity d-flex align-center justify-between">
+              {% render 'icon-minus', class: 'quantity__icon product-minus' %}
+              <input
+                type="number"
+                class="quantity__input btn-outline-none btn-border-none caption-1 flex-1 text-center bg-main color-text"
+                name="quantity"
+                value="1"
+                min="1"
+                max="100"
+              >
+              {% render 'icon-plus', class: 'quantity__icon product-plus' %}
+            </span>
+          </div>
+          <div class="product__btn flex-d-column d-flex">
+            <div class="add-to-cart">
+              <button type="button" class="btn-outline product__btn-item text-btn product-add-to-cart d-block w-100">
+                Add to cart
+              </button>
+            </div>
+            <button class="btn btn-buy-now product__btn-item d-block w-100">Buy it now</button>
+          </div>
+          <span class="product__description body-1 color-text">
+            {{ product.description }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{ 'product.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Feature product",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "default": "bg-1",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "bg-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "bg-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Inverse"
+        }
+      ],
+      "info": "To change the card color scheme, update your theme settings."
+    },
+    {
+      "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "label": "Top padding",
+      "id": "top_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "label": "Bottom padding",
+      "id": "bottom_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Feature product"
+    }
+  ]
+}
+{% endschema %}

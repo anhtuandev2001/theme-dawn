@@ -8,7 +8,7 @@
     class="{{ class_img }} object-cover"
   >
 {%- elsif enable_placeholder == true -%}
-  <div class="{{ class }}">
+  <div class="{{ class_img }}">
     {{ placehelder_name | placeholder_svg_tag: 'h-100 w-100 d-block object-cover bg-bg-2' }}
   </div>
 {%- endif -%}

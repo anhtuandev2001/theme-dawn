@@ -45,7 +45,7 @@
 
         <div class="d-flex article__comments-container flex-d-column-md">
           <div class="article__comments-name article__comments-item d-flex align-center">
-            <label for="caption-1 color-text name">Name</label>
+            <label for="body-1 color-text name">Name</label>
             <input
               class="article__comments-input btn-border-none flex-1 btn-outline-none"
               type="text"
@@ -55,7 +55,7 @@
           </div>
 
           <div class="email article__comments-item d-flex align-center">
-            <label for="caption-1 color-text email">Email</label>
+            <label for="body-1 color-text email">Email</label>
             <input
               class="article__comments-input btn-border-none flex-1 btn-outline-none"
               type="email"
@@ -66,7 +66,7 @@
         </div>
 
         <div class="comment article__comments-text w-100 d-flex">
-          <label for="caption-1 color-text comment">Comment</label>
+          <label for="body-1 color-text comment">Comment</label>
           <textarea
             class="article__comments-input btn-border-none flex-1 btn-outline-none"
             name="comment[body]"
@@ -79,6 +79,13 @@
         </div>
       {% endform %}
     </div>
+
+    {% paginate article.comments by 20 %}
+      {% for item in article.comments %}
+        {{ item.content }}
+      {% endfor %}
+      {{ paginate | default_pagination }}
+    {% endpaginate %}
   </div>
 </div>
 

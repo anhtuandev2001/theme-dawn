@@ -12,6 +12,7 @@
 }
 
 .image-banner__img {
+    height: var(--height-banner);
     width: var(--width-image-banner);
 }
 
@@ -21,10 +22,6 @@
 
 .image-banner__content--gap {
     margin-bottom: 10px;
-}
-
-.image-banner__img {
-    height: var(--height-banner);
 }
 
 .image-banner__content{
@@ -46,9 +43,6 @@
         --width-image-banner: 100%;
     }
     
-    .image-banner__img {
-        width: var(--width-image-banner);
-    }
     .image-banner__content{
         width: 100%;
     }

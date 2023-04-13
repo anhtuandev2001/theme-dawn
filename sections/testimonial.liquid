@@ -1,0 +1,156 @@
+{{ 'testimonial.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="section bg-main {{ section.settings.color_scheme }}"
+  style="
+    --section-padding-top: {{ section.settings.top_padding }}px;
+    --section-padding-bottom: {{ section.settings.bottom_padding }}px
+  "
+>
+  <div class="container">
+    <h2 class="testimonial__heading section__heading heading-0-lg heading-0-sm color-text text-center">Testimonial</h2>
+    <div class="row testimonial__list ">
+      {%- for block in section.blocks -%}
+        <div class="col" style="--w-sm: 12; --w-md: 6">
+          <div class="testimonial__item d-flex-lg text-center">
+            {%- render 'component-img',
+              img_url: block.settings.image,
+              class_img: 'testimonial__img w-100',
+              enable_placeholder: true,
+              placehelder_name: 'lifestyle-1',
+              alt: 'image'
+            -%}
+            <div class="testimonial__content d-flex flex-d-column text-left">
+              {%- assign starEmpty = 5 | minus: block.settings.rate -%}
+              {%- if block.settings.description != blank -%}
+                <span class="testimonial__description body-1 color-text">{{ block.settings.description }}</span>
+              {%- endif -%}
+              {%- if block.settings.rate != blank -%}
+                <span class="testimonial__rate">
+                  {%- for star in (1..block.settings.rate) -%}
+                    {%- render 'icon-star-full', class: 'testimonial__icon-star color-accent-2' -%}
+                  {%- endfor -%}
+                  {%- if starEmpty > 0 -%}
+                    {%- for star in (1..starEmpty) -%}
+                      {%- render 'icon-star-empty', class: 'testimonial__icon-star' -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+                </span>
+              {%- endif -%}
+              {%- if block.settings.author != blank -%}
+                <span class="testimonial__author color-text heading-3-sm heading-3-lg">
+                  {{- block.settings.author -}}
+                </span>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Testimonial",
+  "class": "testimonial",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "image"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "description",
+          "default": "\"I’ve already gotten compliments about my skin glowing after using the anti-aging!\""
+        },
+        {
+          "type": "range",
+          "label": "Rate",
+          "id": "rate",
+          "max": 5,
+          "min": 1,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "author",
+          "default": "Lyly Collin"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "default": "bg-1",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "bg-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "bg-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "inverse",
+          "label": "Inverse"
+        }
+      ],
+      "info": "To change the card color scheme, update your theme settings."
+    },
+    {
+      "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "label": "Top padding",
+      "id": "top_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "label": "Bottom padding",
+      "id": "bottom_padding",
+      "max": 100,
+      "min": 1,
+      "step": 1,
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial",
+      "settings": {},
+      "blocks": []
+    }
+  ],
+  "disabled_on": {
+    "groups": ["footer", "header"]
+  }
+}
+{% endschema %}

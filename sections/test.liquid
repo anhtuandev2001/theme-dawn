@@ -1,0 +1,24 @@
+<style>
+    .collage{
+        --w: 12;
+    }
+
+    .grid{
+        --:6
+    }
+
+</style>
+
+{%- assign collage = value -%}
+
+<div class="row collage">
+{% for blog in blogs.blog %}
+    <div 
+    class="col" 
+    style="
+    {% if collage == "collage" and forloop.index2 != true and forloop.index2 != true %} --w-sm: 12 {% else %} --w-lg: 6"
+    >
+
+    </div>
+{% endfor %}
+</div>

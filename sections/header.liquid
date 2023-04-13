@@ -32,14 +32,14 @@
       <a href="{{ routes.account_url }}" class="d-none d-inline-block-lg">
         {%- render 'icon-user', class: classes -%}
       </a>
-      <a href="{{ routes.cart_url }}" class="header__cart">
-        <span href="{{ routes.cart_url }}" class="p-relative  header__icon-bag d-inline-block">
+      <span href="{{ routes.cart_url }}" class="header__cart">
+        <a href="{{ routes.cart_url }}" class="p-relative  header__icon-bag d-inline-block">
           {%- render 'icon-bag' -%}
           <span id="cart-item-count" class="cart-quantity text-micro color-btn bg-btn p-absolute flex-center">
             {{ cart.item_count }}
           </span>
-        </span>
-      </a>
+        </a>
+      </span>
     </div>
     <nav class="header__nav p-relative">
       <div class="header__menu js-header__menu cursor-pointer d-none-lg">

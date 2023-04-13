@@ -1,0 +1,23 @@
+.img-width-sm{
+    --w-img: 4;
+    --w-content: 8;
+}
+
+.img-width-md{
+    --w-img: 6;
+    --w-content: 6;
+}
+
+.img-width-lg{
+    --w-img: 8;
+    --w-content: 4;
+}
+
+.image-with-text__content{
+    row-gap: 20px;
+    padding: 40px 40px 50px;
+}
+
+.image-width-text-list{
+    --gap: 0;
+}

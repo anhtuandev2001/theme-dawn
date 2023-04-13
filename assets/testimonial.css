@@ -1,0 +1,23 @@
+.testimonial__img{
+    aspect-ratio: 0.8;
+    max-width: 350px;
+}
+
+.testimonial__content{
+    padding: 25px 30px;
+    row-gap: 20px;
+}
+
+.testimonial__list{
+    row-gap: 30px;
+}
+
+@media (min-width: 992px) {
+    .testimonial__img{
+        max-width: 221px;
+    }
+
+    .testimonial__list{
+        --gap: 30px
+    }
+}
